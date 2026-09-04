@@ -1,0 +1,189 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Phase {
+  BASE
+  THRESHOLD
+  STRENGTH
+  PEAK
+  TAPER
+  RACE
+}
+
+enum WorkoutType {
+  EASY
+  TEMPO
+  LONG
+  REST
+  RACE
+}
+
+enum PlanStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  passwordHash      String
+  name              String
+  createdAt         DateTime  @default(now())
+
+  // Onboarding
+  onboardingAnswers Json? // { years, races, days, long, niggles }
+  assessedLevel     String? // e.g. "Advanced · high-volume base"
+  thresholdPaceSec  Int? // seconds per mile
+  vo2max            Float?
+  longestRunMiles   Float?
+  peakWeekMiles     Float?
+  aerobicDecouplingPct Float?
+  bestMarathonSec   Int?
+  bestHalfSec       Int?
+
+  garminConnection  GarminConnection?
+  activities        Activity[]
+  plans             TrainingPlan[]
+  coachMessages     CoachMessage[]
+}
+
+model GarminConnection {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  provider       String    @default("mock") // "garmin" once real credentials configured, else "mock"
+  garminUserId   String?
+  accessToken    String?
+  refreshToken   String?
+  tokenExpiresAt DateTime?
+  scopes         String[]  @default([])
+
+  connectedAt    DateTime  @default(now())
+  lastSyncedAt   DateTime?
+  lastSyncStatus String? // "ok" | "error"
+}
+
+model Activity {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  garminActivityId String?  @unique
+  source          String    @default("garmin") // garmin | manual
+  startTime       DateTime
+  type            String    @default("run")
+  label           String? // e.g. "LACTATE THRESHOLD", "LONG RUN", "EASY"
+
+  distanceMiles   Float
+  durationSec     Int
+  avgPaceSec      Int // seconds per mile
+  avgHr           Int?
+  avgCadence      Int?
+  elevationGainFt Int?
+
+  splits          Json? // [{ mi, paceSec, hr }]
+  zones           Json? // [{ zone: "Z1", minutes }]
+
+  targetPaceSec   Int?
+
+  createdAt       DateTime  @default(now())
+
+  @@index([userId, startTime])
+}
+
+model Race {
+  id                 String   @id @default(cuid())
+  name               String
+  city               String
+  region             String
+  date               DateTime
+  distanceMiles      Float    @default(26.2)
+  startElevationFt   Int
+  finishElevationFt  Int
+  netElevationFt     Int
+  totalGainFt        Int
+  fieldSize          String
+  tempLowF           Int
+  tempHighF           Int
+  qualifyingStandard String
+  note               String
+  profile            Json // [[mile, elevationFt], ...]
+
+  plans              TrainingPlan[]
+
+  @@unique([name, date])
+}
+
+model TrainingPlan {
+  id              String     @id @default(cuid())
+  userId          String
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  raceId          String
+  race            Race       @relation(fields: [raceId], references: [id])
+
+  status          PlanStatus @default(DRAFT)
+  weeks           Int
+  startDate       DateTime
+  goalTimeSec     Int
+  daysPerWeek     Int        @default(6)
+  longRunDay      Int        @default(6) // 0=Mon .. 6=Sun, matches DOW below
+  peakWeeklyMiles Int
+
+  createdAt       DateTime   @default(now())
+
+  planWeeks       PlanWeek[]
+
+  @@index([userId])
+}
+
+model PlanWeek {
+  id            String   @id @default(cuid())
+  planId        String
+  plan          TrainingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  weekNumber    Int
+  phase         Phase
+  startDate     DateTime
+  plannedMiles  Float
+
+  workouts      Workout[]
+
+  @@unique([planId, weekNumber])
+}
+
+model Workout {
+  id                String      @id @default(cuid())
+  planWeekId        String
+  planWeek          PlanWeek    @relation(fields: [planWeekId], references: [id], onDelete: Cascade)
+
+  dayOfWeek         Int // 0=Mon .. 6=Sun
+  date              DateTime
+  type              WorkoutType
+  plannedMiles      Float
+  description       String
+  targetPaceSec     Int?
+
+  completed         Boolean     @default(false)
+  activityId        String? // loosely linked Activity.id once logged
+
+  @@index([planWeekId])
+}
+
+model CoachMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      String // "user" | "coach"
+  text      String
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
