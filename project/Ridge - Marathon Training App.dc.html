@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-fc9454fd-93c5-4437-b9d8-ce3fe55d6b23/styles.css">
+<script src="_ds/nocturne-fc9454fd-93c5-4437-b9d8-ce3fe55d6b23/_ds_bundle.js"></script>
+<style>
+html,body{margin:0;background:#101220;}
+a{color:#b5abfc;text-decoration:none}a:hover{color:#d2cefd}
+::-webkit-scrollbar{width:0;height:0}
+@keyframes ridgeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes pulseDot{0%,100%{opacity:.35}50%{opacity:1}}
+input::placeholder{color:#595d6c}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;align-items:flex-start;justify-content:center;gap:36px;padding:20px 28px 28px;background:#101220;background-image:repeating-radial-gradient(circle at 22% -10%, rgba(145,132,217,0.055) 0 1px, transparent 1px 34px);font-family:Inter,system-ui,sans-serif;">
+
+  <div style="display:flex;flex-direction:column;gap:5px;padding-top:14px;width:190px;">
+    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:0.18em;text-transform:uppercase;color:#5d5294;margin-bottom:7px;">Onboarding</div>
+    <sc-for list="{{ navOnboard }}" as="nav" hint-placeholder-count="6">
+      <button onClick="{{ nav.go }}" style="{{ nav.style }}" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+        <span style="font-variant-numeric:tabular-nums;color:#595d6c;">{{ nav.num }}</span>
+        <span>{{ nav.label }}</span>
+      </button>
+    </sc-for>
+    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:0.18em;text-transform:uppercase;color:#5d5294;margin:16px 0 7px;">In the app</div>
+    <sc-for list="{{ navApp }}" as="nav" hint-placeholder-count="7">
+      <button onClick="{{ nav.go }}" style="{{ nav.style }}" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+        <span style="font-variant-numeric:tabular-nums;color:#595d6c;">{{ nav.num }}</span>
+        <span>{{ nav.label }}</span>
+      </button>
+    </sc-for>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(233,233,237,0.10);font:400 11px/1.6 Inter,sans-serif;color:#75798c;">
+      Tap a day to mark it done. Drag the load ridge to scrub. Coach takes typed questions.
+    </div>
+  </div>
+
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" height="{{ 800 }}" hint-size="402px,800px">
+
+    <div style="position:absolute;inset:0;background:#161826;background-image:repeating-linear-gradient(103deg, rgba(145,132,217,0.045) 0 1px, transparent 1px 26px);display:flex;flex-direction:column;overflow:hidden;">
+
+      <sc-if value="{{ inApp }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:58px 20px 12px;display:flex;align-items:flex-end;justify-content:space-between;flex:none;">
+        <div>
+          <div style="font:500 19px/1 Inter,sans-serif;letter-spacing:0.22em;color:#e9e9ed;">RIDGE</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
+            <div style="width:5px;height:5px;border-radius:50%;background:#9184d9;animation:pulseDot 2.4s ease-in-out infinite;"></div>
+            <div style="font:400 10.5px/1.4 Inter,sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#75798c;">Garmin · synced 9:30 AM</div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font:500 12px/1 Inter,sans-serif;letter-spacing:0.08em;color:#b5abfc;">WK {{ curWeekNum }}/19</div>
+          <div style="font:400 11px/1.4 Inter,sans-serif;color:#75798c;margin-top:5px;">{{ daysToGo }} days out</div>
+        </div>
+      </div>
+      </sc-if>
+
+      <div style="{{ scrollStyle }}">
+
+        <sc-if value="{{ isWelcome }}" hint-placeholder-val="{{ true }}">
+        <div style="min-height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:96px 0 20px;animation:ridgeIn .3s ease both;">
+          <div>
+            <svg viewBox="0 0 322 96" width="100%" height="96" style="display:block;overflow:visible;margin-bottom:34px;">
+              <defs><linearGradient id="wgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#423a6a"></stop><stop offset="100%" stop-color="#161826"></stop></linearGradient></defs>
+              <path d="M0,96 L0,72 L44,50 L82,66 L128,22 L176,58 L214,38 L262,74 L322,44 L322,96 Z" fill="url(#wgrad)"></path>
+              <path d="M0,72 L44,50 L82,66 L128,22 L176,58 L214,38 L262,74 L322,44" fill="none" stroke="#d2cefd" stroke-width="1.7"></path>
+              <circle cx="128" cy="22" r="4" fill="#161826" stroke="#b5abfc" stroke-width="1.8"></circle>
+            </svg>
+            <div style="font:500 40px/1 Inter,sans-serif;letter-spacing:0.28em;color:#e9e9ed;">RIDGE</div>
+            <div style="font:400 15px/1.6 Inter,sans-serif;color:#9397ab;margin-top:18px;max-width:280px;">Marathon training built from your own Garmin history, not a template.</div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:30px;">
+              <sc-for list="{{ welcomePoints }}" as="p" hint-placeholder-count="3">
+                <div style="display:flex;gap:11px;align-items:baseline;">
+                  <div style="width:4px;height:4px;border-radius:50%;background:#5d5294;flex:none;position:relative;top:-3px;"></div>
+                  <div style="font:400 12.5px/1.5 Inter,sans-serif;color:#75798c;">{{ p }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <button onClick="{{ goSignup }}" style="width:100%;padding:14px;border-radius:10px;border:1px solid #9184d9;background:transparent;color:#d2cefd;font:500 13px/1 Inter,sans-serif;letter-spacing:0.06em;cursor:pointer;font-family:inherit;" style-hover="background:rgba(145,132,217,0.14)" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">Create account</button>
+            <button onClick="{{ goApp }}" style="width:100%;padding:14px;border-radius:10px;border:1px solid rgba(233,233,237,0.12);background:transparent;color:#9397ab;font:400 13px/1 Inter,sans-serif;cursor:pointer;font-family:inherit;" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">I already have an account</button>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:80px 0 20px;animation:ridgeIn .3s ease both;">
+          <div>
+            <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#5d5294;">Create account</div>
+            <div style="font:500 27px/1.2 Inter,sans-serif;letter-spacing:-0.02em;color:#e9e9ed;margin-top:14px;">Start with your details</div>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-top:24px;">
+              <sc-for list="{{ signupFields }}" as="f" hint-placeholder-count="3">
+                <div>
+                  <div style="font:400 10px/1 Inter,sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#75798c;margin-bottom:7px;">{{ f.label }}</div>
+                  <input value="{{ f.value }}" onChange="{{ f.onChange }}" type="{{ f.type }}" placeholder="{{ f.placeholder }}" style="width:100%;box-sizing:border-box;background:var(--color-surface);border:1px solid rgba(233,233,237,0.12);border-radius:10px;padding:13px 14px;color:#e9e9ed;font:400 13.5px/1 Inter,sans-serif;font-family:inherit;outline:none;" style-focus="border-color:#9184d9">
+                </div>
+              </sc-for>
+            </div>
+            <div style="font:400 11px/1.6 Inter,sans-serif;color:#595d6c;margin-top:18px;">Ridge stores your training history and Garmin tokens. It never sells data and you can revoke access from Garmin Connect at any time.</div>
+          </div>
+          <div style="display:flex;gap:9px;">
+            <button onClick="{{ goWelcome }}" style="padding:14px 20px;border-radius:10px;border:1px solid rgba(233,233,237,0.12);background:transparent;color:#9397ab;font:400 13px/1 Inter,sans-serif;cursor:pointer;font-family:inherit;" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">Back</button>
+            <button onClick="{{ goConnect }}" style="{{ signupBtnStyle }}" style-hover="background:rgba(145,132,217,0.14)" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ signupBtnLabel }}</button>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isConnect }}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:70px 0 20px;animation:ridgeIn .3s ease both;">
+          <div>
+            <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#5d5294;">Step 1 of 4</div>
+            <div style="font:500 27px/1.2 Inter,sans-serif;letter-spacing:-0.02em;color:#e9e9ed;margin-top:14px;">Connect Garmin</div>
+            <div style="font:400 13.5px/1.6 Inter,sans-serif;color:#9397ab;margin-top:12px;">Ridge reads your history to work out what you can actually hold, then syncs each morning at 9:30.</div>
+
+            <div style="border:1px solid rgba(233,233,237,0.10);border-radius:13px;background:var(--color-surface);margin-top:26px;overflow:hidden;">
+              <sc-for list="{{ permissions }}" as="p" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;gap:11px;padding:13px 15px;border-bottom:1px solid rgba(233,233,237,0.06);">
+                  <div style="{{ p.dot }}"></div>
+                  <div style="flex:1;">
+                    <div style="font:400 13px/1.3 Inter,sans-serif;color:#e9e9ed;">{{ p.name }}</div>
+                    <div style="font:400 10.5px/1.3 Inter,sans-serif;color:#75798c;margin-top:2px;">{{ p.detail }}</div>
+                  </div>
+                  <div style="{{ p.state }}">{{ p.stateLabel }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ connecting }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;">
+                <div style="height:3px;border-radius:2px;background:rgba(233,233,237,0.08);overflow:hidden;">
+                  <div style="{{ connectBarStyle }}"></div>
+                </div>
+                <div style="font:400 11px/1.4 Inter,sans-serif;letter-spacing:0.08em;color:#75798c;margin-top:9px;">{{ connectStatus }}</div>
+              </div>
+            </sc-if>
+          </div>
+          <button onClick="{{ startConnect }}" style="{{ connectBtnStyle }}" style-hover="background:rgba(145,132,217,0.14)" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ connectBtnLabel }}</button>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isQ }}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:80px 0 20px;animation:ridgeIn .3s ease both;">
+          <div>
+            <div style="display:flex;gap:4px;margin-bottom:24px;">
+              <sc-for list="{{ qTicks }}" as="t" hint-placeholder-count="5">
+                <div style="{{ t }}"></div>
+              </sc-for>
+            </div>
+            <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#5d5294;">Step 2 of 4 · {{ qCounter }}</div>
+            <div style="font:500 24px/1.25 Inter,sans-serif;letter-spacing:-0.02em;color:#e9e9ed;margin-top:14px;max-width:290px;">{{ qTitle }}</div>
+            <div style="font:400 12.5px/1.5 Inter,sans-serif;color:#75798c;margin-top:10px;">{{ qHelp }}</div>
+            <div style="display:flex;flex-direction:column;gap:7px;margin-top:24px;">
+              <sc-for list="{{ qOptions }}" as="o" hint-placeholder-count="4">
+                <button onClick="{{ o.pick }}" style="{{ o.style }}" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+                  <span>{{ o.label }}</span>
+                  <span style="{{ o.check }}">✓</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;gap:9px;">
+            <button onClick="{{ qBack }}" style="padding:14px 20px;border-radius:10px;border:1px solid rgba(233,233,237,0.12);background:transparent;color:#9397ab;font:400 13px/1 Inter,sans-serif;cursor:pointer;font-family:inherit;" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">Back</button>
+            <button onClick="{{ qNext }}" style="{{ qNextStyle }}" style-hover="background:rgba(145,132,217,0.14)" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ qNextLabel }}</button>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isAnalyzing }}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:70px 0 20px;animation:ridgeIn .3s ease both;">
+          <div>
+            <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#5d5294;">Step 3 of 4</div>
+            <div style="font:500 27px/1.2 Inter,sans-serif;letter-spacing:-0.02em;color:#e9e9ed;margin-top:14px;">Reading your history</div>
+            <div style="font:400 13px/1.6 Inter,sans-serif;color:#9397ab;margin-top:12px;">18 months of activities, 412 runs.</div>
+            <div style="display:flex;flex-direction:column;gap:2px;margin-top:26px;">
+              <sc-for list="{{ analysisRows }}" as="r" hint-placeholder-count="6">
+                <div style="display:flex;align-items:center;gap:11px;padding:12px 2px;border-bottom:1px solid rgba(233,233,237,0.06);">
+                  <div style="{{ r.dot }}"></div>
+                  <div style="flex:1;font:400 12.5px/1.3 Inter,sans-serif;color:{{ r.labelColor }};">{{ r.label }}</div>
+                  <div style="{{ r.valStyle }}">{{ r.val }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ analysisDone }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid #5d5294;border-radius:13px;background:rgba(145,132,217,0.09);padding:16px 17px;margin-top:22px;">
+                <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#b5abfc;">Assessed level</div>
+                <div style="font:500 21px/1.2 Inter,sans-serif;color:#e9e9ed;margin-top:10px;">Advanced · high-volume base</div>
+                <div style="font:400 12px/1.5 Inter,sans-serif;color:#9397ab;margin-top:8px;">Your answers said 5+ years. Your data agrees, and puts your threshold at 6:38 /mi.</div>
+              </div>
+            </sc-if>
+          </div>
+          <button onClick="{{ goRaceSetup }}" style="{{ analyzeBtnStyle }}" style-hover="background:rgba(145,132,217,0.14)" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ analyzeBtnLabel }}</button>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isRaceSetup }}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:70px 0 20px;animation:ridgeIn .3s ease both;">
+          <div>
+            <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#5d5294;">Step 4 of 4</div>
+            <div style="font:500 27px/1.2 Inter,sans-serif;letter-spacing:-0.02em;color:#e9e9ed;margin-top:14px;">Pick your race</div>
+            <div style="font:400 13px/1.6 Inter,sans-serif;color:#9397ab;margin-top:10px;">Type a race or a city. Ridge pulls the course, the field and the conditions, then builds the plan backwards from race day.</div>
+
+            <input value="{{ raceQuery }}" onChange="{{ onRaceQuery }}" placeholder="Search a marathon…" style="width:100%;box-sizing:border-box;margin-top:18px;background:var(--color-surface);border:1px solid rgba(233,233,237,0.12);border-radius:10px;padding:13px 14px;color:#e9e9ed;font:400 13.5px/1 Inter,sans-serif;font-family:inherit;outline:none;" style-focus="border-color:#9184d9">
+
+            <sc-if value="{{ raceSearching }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:5px;margin-top:9px;">
+                <sc-for list="{{ raceResults }}" as="r" hint-placeholder-count="3">
+                  <button onClick="{{ r.pick }}" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:1px solid rgba(233,233,237,0.09);border-radius:10px;background:var(--color-surface);padding:11px 13px;cursor:pointer;font-family:inherit;" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+                    <div style="flex:1;min-width:0;">
+                      <div style="font:400 13px/1.3 Inter,sans-serif;color:#e9e9ed;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</div>
+                      <div style="font:400 10.5px/1.3 Inter,sans-serif;color:#75798c;margin-top:3px;">{{ r.where }}</div>
+                    </div>
+                    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#5d5294;white-space:nowrap;">{{ r.weeks }}</div>
+                  </button>
+                </sc-for>
+                <sc-if value="{{ raceNoResults }}" hint-placeholder-val="{{ false }}">
+                  <div style="font:400 12px/1.5 Inter,sans-serif;color:#75798c;padding:10px 2px;">No match yet. Ridge indexes 4,200 road races — try a city.</div>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ racePicked }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <div style="border:1px solid rgba(233,233,237,0.12);border-radius:13px;background:linear-gradient(168deg,#232532,#161826);padding:17px;margin-top:14px;">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
+                  <div style="font:500 17px/1.25 Inter,sans-serif;color:#e9e9ed;">{{ race.name }}</div>
+                  <button onClick="{{ clearRace }}" style="background:none;border:none;padding:0;font:400 10.5px/1 Inter,sans-serif;letter-spacing:0.08em;color:#75798c;cursor:pointer;font-family:inherit;white-space:nowrap;" style-hover="color:#b5abfc" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">Change</button>
+                </div>
+                <div style="font:400 11px/1.3 Inter,sans-serif;color:#75798c;margin-top:5px;">{{ race.where }} · {{ race.date }}</div>
+                <svg viewBox="0 0 290 62" width="100%" height="62" style="display:block;margin-top:14px;overflow:visible;">
+                  <defs><linearGradient id="rsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#423a6a"></stop><stop offset="100%" stop-color="#161826"></stop></linearGradient></defs>
+                  <path d="{{ setupCourse.area }}" fill="url(#rsg)"></path>
+                  <path d="{{ setupCourse.line }}" fill="none" stroke="#d2cefd" stroke-width="1.5"></path>
+                </svg>
+                <div style="display:flex;gap:16px;margin-top:10px;">
+                  <sc-for list="{{ raceFacts }}" as="f" hint-placeholder-count="4">
+                    <div>
+                      <div style="font:500 13px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ f.v }}</div>
+                      <div style="font:400 9px/1.3 Inter,sans-serif;letter-spacing:0.09em;text-transform:uppercase;color:#75798c;margin-top:4px;">{{ f.l }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="font:400 12px/1.55 Inter,sans-serif;color:#b2b6ca;margin-top:14px;padding-top:13px;border-top:1px solid rgba(233,233,237,0.08);">{{ race.note }}</div>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:0;margin-top:16px;">
+                <sc-for list="{{ raceMeta }}" as="m" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:baseline;justify-content:space-between;padding:10px 2px;border-bottom:1px solid rgba(233,233,237,0.07);">
+                    <div style="font:400 12px/1.3 Inter,sans-serif;color:#9397ab;">{{ m.l }}</div>
+                    <div style="font:400 12px/1.3 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ m.v }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:24px 0 10px;">Goal time</div>
+              <div style="display:flex;gap:6px;">
+                <sc-for list="{{ goalOptions }}" as="g" hint-placeholder-count="4">
+                  <button onClick="{{ g.pick }}" style="{{ g.style }}" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ g.label }}</button>
+                </sc-for>
+              </div>
+              <div style="font:400 11.5px/1.5 Inter,sans-serif;color:#75798c;margin-top:12px;">Your VO2 max of 61.0 and 1:31:00 half project a 2:58:40 marathon on this course.</div>
+            </div>
+            </sc-if>
+          </div>
+          <button onClick="{{ goPlanReview }}" style="{{ buildPlanStyle }}" style-hover="background:rgba(145,132,217,0.14)" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ buildPlanLabel }}</button>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isPlanReview }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:70px 0 20px;animation:ridgeIn .3s ease both;">
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#5d5294;">Draft plan</div>
+          <div style="font:500 27px/1.2 Inter,sans-serif;letter-spacing:-0.02em;color:#e9e9ed;margin-top:14px;">{{ draftHeading }}</div>
+          <div style="font:400 13px/1.6 Inter,sans-serif;color:#9397ab;margin-top:10px;">{{ draftSub }}</div>
+
+          <svg viewBox="0 0 322 118" width="100%" height="118" style="display:block;margin-top:22px;overflow:visible;">
+            <sc-for list="{{ draftBars }}" as="b" hint-placeholder-count="19">
+              <rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" rx="1.5" fill="{{ b.fill }}"></rect>
+            </sc-for>
+            <path d="{{ draftRidge }}" fill="none" stroke="rgba(233,233,237,0.26)" stroke-width="1"></path>
+          </svg>
+          <div style="display:flex;justify-content:space-between;font:400 9.5px/1 Inter,sans-serif;color:#595d6c;">
+            <span>Wk 1 · Base</span><span>Peak</span><span>{{ draftRaceWeek }}</span>
+          </div>
+
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:26px 0 10px;">Adjust</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <sc-for list="{{ adjusters }}" as="a" hint-placeholder-count="3">
+              <div style="border:1px solid rgba(233,233,237,0.09);border-radius:11px;background:var(--color-surface);padding:12px 13px;">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                  <div style="font:400 12.5px/1 Inter,sans-serif;color:#9397ab;">{{ a.label }}</div>
+                  <div style="font:500 13px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ a.value }}</div>
+                </div>
+                <div style="display:flex;gap:5px;margin-top:10px;">
+                  <sc-for list="{{ a.options }}" as="o" hint-placeholder-count="4">
+                    <button onClick="{{ o.pick }}" style="{{ o.style }}" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ o.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <button onClick="{{ goCoach }}" style="width:100%;margin-top:14px;padding:13px;border-radius:11px;border:1px solid rgba(233,233,237,0.12);background:var(--color-surface);color:#b5abfc;font:400 12.5px/1 Inter,sans-serif;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:space-between;" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+            <span>Ask the coach about this plan</span><span style="color:#5d5294;">›</span>
+          </button>
+
+          <button onClick="{{ goApp }}" style="width:100%;margin-top:20px;padding:14px;border-radius:10px;border:1px solid #9184d9;background:transparent;color:#d2cefd;font:500 13px/1 Inter,sans-serif;letter-spacing:0.06em;cursor:pointer;font-family:inherit;" style-hover="background:rgba(145,132,217,0.14)" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">Start training</button>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isToday }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;animation:ridgeIn .28s ease both;">
+
+          <div style="border:1px solid rgba(233,233,237,0.13);border-radius:14px;background:linear-gradient(168deg,#232532,#161826);padding:18px 18px 16px;box-shadow:0 6px 18px rgba(0,0,0,0.4);">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;color:#b5abfc;">{{ todaySessionType }}</div>
+              <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:0.1em;color:#75798c;">{{ todayDateLabel }}</div>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-top:12px;">
+              <div style="font:500 52px/0.9 Inter,sans-serif;letter-spacing:-0.03em;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ todayBigNum }}</div>
+              <div style="font:400 14px/1 Inter,sans-serif;color:#9397ab;">{{ todayBigUnit }}</div>
+            </div>
+            <div style="font:400 13.5px/1.5 Inter,sans-serif;color:#b2b6ca;margin-top:10px;">{{ todayText }}</div>
+
+            <sc-if value="{{ todayLogged }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;gap:0;margin-top:16px;border-top:1px solid rgba(233,233,237,0.09);padding-top:14px;">
+                <sc-for list="{{ todayActuals }}" as="a" hint-placeholder-count="4">
+                  <div style="flex:1;">
+                    <div style="font:500 14px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ a.v }}</div>
+                    <div style="font:400 9px/1.3 Inter,sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#75798c;margin-top:5px;">{{ a.l }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ todayPlanned }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:16px;">
+                <div style="display:flex;height:26px;gap:2px;border-radius:5px;overflow:hidden;">
+                  <sc-for list="{{ todaySegments }}" as="seg" hint-placeholder-count="3">
+                    <div style="{{ seg.style }}">{{ seg.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <button onClick="{{ toggleToday }}" style="{{ todayBtnStyle }}" style-hover="background:rgba(145,132,217,0.14)" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ todayBtnLabel }}</button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+            <sc-for list="{{ headlineStats }}" as="s" hint-placeholder-count="3">
+              <div style="border:1px solid rgba(233,233,237,0.10);border-radius:11px;background:var(--color-surface);padding:12px 12px 10px;">
+                <div style="{{ s.valStyle }}">{{ s.val }}</div>
+                <div style="font:400 9.5px/1.3 Inter,sans-serif;letter-spacing:0.11em;text-transform:uppercase;color:#75798c;margin-top:5px;">{{ s.label }}</div>
+                <div style="font:400 10px/1.3 Inter,sans-serif;color:#595d6c;margin-top:2px;">{{ s.sub }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <button onClick="{{ goLoad }}" style="text-align:left;width:100%;border:1px solid rgba(233,233,237,0.10);border-radius:14px;background:var(--color-surface);padding:15px 16px 8px;cursor:pointer;font-family:inherit;" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.14em;text-transform:uppercase;color:#9397ab;">Form recovers</div>
+              <div style="font:500 12px/1 Inter,sans-serif;color:#b5abfc;">{{ crossLabel }}</div>
+            </div>
+            <svg viewBox="0 0 322 62" width="100%" height="62" style="display:block;margin-top:8px;overflow:visible;">
+              <line x1="0" y1="{{ mini.zeroY }}" x2="322" y2="{{ mini.zeroY }}" stroke="rgba(233,233,237,0.16)" stroke-width="1"></line>
+              <path d="{{ mini.negPath }}" fill="rgba(145,132,217,0.16)"></path>
+              <path d="{{ mini.posPath }}" fill="rgba(181,171,252,0.30)"></path>
+              <path d="{{ mini.linePast }}" fill="none" stroke="#b5abfc" stroke-width="1.6"></path>
+              <path d="{{ mini.lineFuture }}" fill="none" stroke="#796cbf" stroke-width="1.4" stroke-dasharray="3 3"></path>
+              <line x1="{{ mini.todayX }}" y1="0" x2="{{ mini.todayX }}" y2="62" stroke="rgba(233,233,237,0.28)" stroke-width="1"></line>
+              <circle cx="{{ mini.crossX }}" cy="{{ mini.zeroY }}" r="3" fill="#161826" stroke="#b5abfc" stroke-width="1.6"></circle>
+            </svg>
+            <div style="font:400 10px/1.4 Inter,sans-serif;letter-spacing:0.06em;color:#595d6c;padding-bottom:7px;">Form (TSB) · today {{ tsbNow }} · projected on plan</div>
+          </button>
+
+          <div>
+            <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:6px 0 10px;">This week · {{ curPlanned }} mi planned</div>
+            <div style="display:flex;gap:4px;align-items:flex-end;height:70px;">
+              <sc-for list="{{ weekStrip }}" as="d" hint-placeholder-count="7">
+                <button onClick="{{ d.go }}" style="{{ d.wrapStyle }}" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+                  <div style="{{ d.barStyle }}"></div>
+                  <div style="{{ d.labelStyle }}">{{ d.label }}</div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <button onClick="{{ goRun }}" style="text-align:left;width:100%;border:1px solid rgba(233,233,237,0.10);border-radius:12px;background:var(--color-surface);padding:13px 15px;cursor:pointer;font-family:inherit;display:flex;justify-content:space-between;align-items:center;" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+            <div>
+              <div style="font:400 9.5px/1 Inter,sans-serif;letter-spacing:0.14em;text-transform:uppercase;color:#75798c;">Last workout · Wed Sep 2</div>
+              <div style="font:500 14px/1.3 Inter,sans-serif;color:#e9e9ed;margin-top:6px;">11.02 mi · 6:59 /mi · 158 bpm</div>
+            </div>
+            <div style="font:400 18px/1 Inter,sans-serif;color:#5d5294;">›</div>
+          </button>
+
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isWeek }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:ridgeIn .28s ease both;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 14px;">
+            <button onClick="{{ prevWeek }}" style="{{ arrowStyle }}" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">‹</button>
+            <div style="text-align:center;">
+              <div style="font:500 17px/1 Inter,sans-serif;letter-spacing:-0.01em;color:#e9e9ed;">Week {{ viewWeek.n }}</div>
+              <div style="font:400 10.5px/1.4 Inter,sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#75798c;margin-top:5px;">{{ viewWeek.phase }} · {{ viewWeek.start }}</div>
+            </div>
+            <button onClick="{{ nextWeek }}" style="{{ arrowStyle }}" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">›</button>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-bottom:14px;">
+            <div style="flex:1;border:1px solid rgba(233,233,237,0.10);border-radius:11px;background:var(--color-surface);padding:11px 13px;">
+              <div style="font:500 21px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ viewWeek.planned }}</div>
+              <div style="font:400 9.5px/1.3 Inter,sans-serif;letter-spacing:0.11em;text-transform:uppercase;color:#75798c;margin-top:4px;">mi planned</div>
+            </div>
+            <div style="flex:1;border:1px solid rgba(233,233,237,0.10);border-radius:11px;background:var(--color-surface);padding:11px 13px;">
+              <div style="font:500 21px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#b5abfc;">{{ weekDoneCount }}</div>
+              <div style="font:400 9.5px/1.3 Inter,sans-serif;letter-spacing:0.11em;text-transform:uppercase;color:#75798c;margin-top:4px;">of 7 done</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <sc-for list="{{ viewDays }}" as="d" hint-placeholder-count="7">
+              <button onClick="{{ d.toggle }}" style="{{ d.rowStyle }}" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+                <div style="{{ d.dayStyle }}">{{ d.dow }}</div>
+                <div style="flex:1;min-width:0;text-align:left;">
+                  <div style="{{ d.textStyle }}">{{ d.text }}</div>
+                  <div style="font:400 9.5px/1.3 Inter,sans-serif;letter-spacing:0.08em;color:#595d6c;margin-top:3px;">{{ d.date }}</div>
+                </div>
+                <div style="{{ d.milesStyle }}">{{ d.miles }}</div>
+                <div style="{{ d.checkStyle }}">✓</div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:ridgeIn .28s ease both;">
+          <div style="display:flex;gap:3px;padding:3px;border:1px solid rgba(233,233,237,0.09);border-radius:9px;background:var(--color-surface);margin:4px 0 18px;">
+            <sc-for list="{{ planViews }}" as="v" hint-placeholder-count="3">
+              <button onClick="{{ v.pick }}" style="{{ v.style }}" style-hover="color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ v.label }}</button>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ isCalendarView }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <button onClick="{{ calPrev }}" style="{{ arrowStyle }}" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">‹</button>
+              <div style="text-align:center;">
+                <div style="font:500 15px/1 Inter,sans-serif;letter-spacing:0.01em;color:#e9e9ed;">{{ calMonthLabel }}</div>
+                <div style="font:400 10px/1.4 Inter,sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#75798c;margin-top:5px;">{{ calSubLabel }}</div>
+              </div>
+              <button onClick="{{ calNext }}" style="{{ arrowStyle }}" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">›</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;">
+              <sc-for list="{{ calDows }}" as="d" hint-placeholder-count="7">
+                <div style="text-align:center;font:500 9px/1 Inter,sans-serif;letter-spacing:0.1em;color:#595d6c;">{{ d }}</div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">
+              <sc-for list="{{ calCells }}" as="c" hint-placeholder-count="35">
+                <button onClick="{{ c.go }}" style="{{ c.style }}" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+                  <div style="{{ c.numStyle }}">{{ c.num }}</div>
+                  <div style="{{ c.miStyle }}">{{ c.mi }}</div>
+                  <div style="{{ c.dotStyle }}"></div>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;">
+              <sc-for list="{{ calLegend }}" as="g" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div style="{{ g.dot }}"></div>
+                  <div style="font:400 10.5px/1 Inter,sans-serif;color:#75798c;">{{ g.l }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font:400 10px/1.5 Inter,sans-serif;color:#595d6c;margin-top:10px;">Numbers are scheduled miles. Faded days are already logged. Tap any day to open its week.</div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isVolumeView }}" hint-placeholder-val="{{ true }}">
+          <div>
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:0 0 12px;">19-week build · weekly volume</div>
+          <svg viewBox="0 0 322 124" width="100%" height="124" style="display:block;overflow:visible;">
+            <sc-for list="{{ planBars }}" as="b" hint-placeholder-count="19">
+              <rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" rx="1.5" fill="{{ b.fill }}" onClick="{{ b.go }}" style="cursor:pointer"></rect>
+            </sc-for>
+            <path d="{{ planRidge }}" fill="none" stroke="rgba(233,233,237,0.28)" stroke-width="1"></path>
+            <line x1="{{ planTodayX }}" y1="0" x2="{{ planTodayX }}" y2="112" stroke="#b5abfc" stroke-width="1"></line>
+            <text x="{{ planTodayX }}" y="123" fill="#b5abfc" font-size="8.5" font-family="Inter" letter-spacing="0.08em" text-anchor="middle">NOW</text>
+          </svg>
+          <div style="display:flex;justify-content:space-between;margin-top:2px;font:400 9.5px/1 Inter,sans-serif;color:#595d6c;">
+            <span>Wk 1</span><span>Wk 10</span><span>Wk 19 · race</span>
+          </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isListView }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <sc-for list="{{ phaseRows }}" as="p" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:11px;border:1px solid rgba(233,233,237,0.09);border-radius:10px;background:var(--color-surface);padding:11px 13px;">
+                <div style="{{ p.swatch }}"></div>
+                <div style="flex:1;">
+                  <div style="font:500 13px/1.3 Inter,sans-serif;color:#e9e9ed;">{{ p.name }}</div>
+                  <div style="font:400 10px/1.3 Inter,sans-serif;letter-spacing:0.07em;color:#75798c;margin-top:2px;">{{ p.weeks }}</div>
+                </div>
+                <div style="font:500 13px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#9397ab;">{{ p.mi }} mi</div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isLoad }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:ridgeIn .28s ease both;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin:4px 0 4px;">
+            <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;">Fitness · Fatigue</div>
+            <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:0.08em;color:#b5abfc;">{{ scrubDate }}</div>
+          </div>
+
+          <div style="display:flex;gap:18px;margin:12px 0 10px;">
+            <div>
+              <div style="font:500 26px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ scrubCtl }}</div>
+              <div style="font:400 9.5px/1.3 Inter,sans-serif;letter-spacing:0.11em;text-transform:uppercase;color:#75798c;margin-top:4px;">Fitness</div>
+            </div>
+            <div>
+              <div style="font:500 26px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#9397ab;">{{ scrubAtl }}</div>
+              <div style="font:400 9.5px/1.3 Inter,sans-serif;letter-spacing:0.11em;text-transform:uppercase;color:#75798c;margin-top:4px;">Fatigue</div>
+            </div>
+            <div>
+              <div style="{{ scrubTsbStyle }}">{{ scrubTsb }}</div>
+              <div style="font:400 9.5px/1.3 Inter,sans-serif;letter-spacing:0.11em;text-transform:uppercase;color:#75798c;margin-top:4px;">Form</div>
+            </div>
+          </div>
+
+          <svg viewBox="0 0 322 168" width="100%" height="168" style="display:block;touch-action:none;overflow:visible;" onPointerDown="{{ onScrub }}" onPointerMove="{{ onScrubMove }}">
+            <defs>
+              <clipPath id="ridgeclip"><path d="{{ ridge.areaAll }}"></path></clipPath>
+              <linearGradient id="ridgegrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#423a6a"></stop>
+                <stop offset="100%" stop-color="#292b31"></stop>
+              </linearGradient>
+            </defs>
+            <path d="{{ ridge.areaAll }}" fill="url(#ridgegrad)"></path>
+            <g clip-path="url(#ridgeclip)">
+              <sc-for list="{{ ridge.contours }}" as="c" hint-placeholder-count="5">
+                <line x1="0" y1="{{ c.y }}" x2="322" y2="{{ c.y }}" stroke="rgba(233,233,237,0.10)" stroke-width="1"></line>
+              </sc-for>
+            </g>
+            <path d="{{ ridge.futureMask }}" fill="rgba(22,24,38,0.55)"></path>
+            <sc-for list="{{ ridge.deloadBands }}" as="b" hint-placeholder-count="0">
+              <g>
+                <rect x="{{ b.x }}" y="0" width="{{ b.w }}" height="140" fill="rgba(145,132,217,0.10)"></rect>
+                <rect x="{{ b.x }}" y="0" width="{{ b.w }}" height="2" fill="#9184d9"></rect>
+              </g>
+            </sc-for>
+            <path d="{{ ridge.atlPast }}" fill="none" stroke="#9184d9" stroke-width="1.1" opacity="0.8"></path>
+            <path d="{{ ridge.atlFuture }}" fill="none" stroke="#9184d9" stroke-width="1.1" stroke-dasharray="3 3" opacity="0.6"></path>
+            <path d="{{ ridge.ctlLine }}" fill="none" stroke="#e9e9ed" stroke-width="2"></path>
+            <line x1="{{ ridge.todayX }}" y1="0" x2="{{ ridge.todayX }}" y2="140" stroke="rgba(233,233,237,0.3)" stroke-width="1"></line>
+            <line x1="{{ ridge.scrubX }}" y1="0" x2="{{ ridge.scrubX }}" y2="140" stroke="#e9e9ed" stroke-width="1"></line>
+            <circle cx="{{ ridge.scrubX }}" cy="{{ ridge.scrubCtlY }}" r="3.5" fill="#161826" stroke="#d2cefd" stroke-width="1.6"></circle>
+            <circle cx="{{ ridge.scrubX }}" cy="{{ ridge.scrubAtlY }}" r="3" fill="#161826" stroke="#9184d9" stroke-width="1.6"></circle>
+            <sc-for list="{{ ridge.xLabels }}" as="l" hint-placeholder-count="5">
+              <text x="{{ l.x }}" y="158" fill="#595d6c" font-size="9" font-family="Inter" text-anchor="middle">{{ l.t }}</text>
+            </sc-for>
+          </svg>
+
+          <div style="display:flex;gap:14px;margin-top:2px;font:400 10px/1 Inter,sans-serif;color:#75798c;">
+            <span style="color:#e9e9ed;">— Fitness</span><span style="color:#9184d9;">— Fatigue</span><span>Shaded = deload window</span>
+          </div>
+
+          <div style="margin-top:22px;">
+            <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin-bottom:10px;">Deload windows</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <sc-for list="{{ deloadRows }}" as="r" hint-placeholder-count="3">
+                <div style="{{ r.style }}">
+                  <div style="flex:1;text-align:left;">
+                    <div style="font:500 13px/1.3 Inter,sans-serif;color:#e9e9ed;">{{ r.title }}</div>
+                    <div style="font:400 10.5px/1.4 Inter,sans-serif;color:#75798c;margin-top:3px;">{{ r.sub }}</div>
+                  </div>
+                  <div style="{{ r.tagStyle }}">{{ r.tag }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isRun }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:ridgeIn .28s ease both;">
+          <button onClick="{{ goToday }}" style="background:none;border:none;padding:0;margin:2px 0 14px;font:400 11px/1 Inter,sans-serif;letter-spacing:0.1em;color:#75798c;cursor:pointer;font-family:inherit;" style-hover="color:#b5abfc" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">‹ TODAY</button>
+
+          <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:18px;">
+            <sc-for list="{{ runList }}" as="r" hint-placeholder-count="6">
+              <button onClick="{{ r.pick }}" style="{{ r.style }}" style-hover="border-color:#5d5294" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+                <div style="{{ r.labelStyle }}">{{ r.label }}</div>
+                <div style="{{ r.subStyle }}">{{ r.sub }}</div>
+              </button>
+            </sc-for>
+          </div>
+
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;color:#b5abfc;">{{ runType }}</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:10px;">
+            <div style="font:500 44px/0.9 Inter,sans-serif;letter-spacing:-0.03em;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ runMiles }}</div>
+            <div style="font:400 13px/1 Inter,sans-serif;color:#9397ab;">mi · {{ runDate }}</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px;">
+            <sc-for list="{{ runStats }}" as="s" hint-placeholder-count="4">
+              <div style="border:1px solid rgba(233,233,237,0.10);border-radius:10px;background:var(--color-surface);padding:10px 10px 9px;">
+                <div style="font:500 15px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ s.v }}</div>
+                <div style="font:400 9px/1.3 Inter,sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#75798c;margin-top:4px;">{{ s.l }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:22px 0 10px;">Mile splits</div>
+          <div style="display:flex;flex-direction:column;gap:3px;border-left:1px solid rgba(233,233,237,0.14);padding-left:1px;">
+            <sc-for list="{{ splits }}" as="s" hint-placeholder-count="11">
+              <div style="display:flex;align-items:center;gap:9px;height:26px;">
+                <div style="width:16px;font:400 10px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#595d6c;text-align:right;">{{ s.mi }}</div>
+                <div style="flex:1;height:100%;position:relative;">
+                  <div style="{{ s.laneStyle }}"></div>
+                  <div style="{{ s.paceStyle }}">{{ s.pace }}</div>
+                </div>
+                <div style="width:54px;font:400 11px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#75798c;text-align:right;white-space:nowrap;">{{ s.hr }} bpm</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font:400 9.5px/1.4 Inter,sans-serif;color:#595d6c;margin-top:8px;">{{ runTargetNote }}</div>
+
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:22px 0 10px;">Time in zone</div>
+          <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;gap:2px;">
+            <sc-for list="{{ runZones }}" as="z" hint-placeholder-count="4">
+              <div style="{{ z.style }}"></div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:14px;margin-top:8px;font:400 10.5px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#75798c;">
+            <sc-for list="{{ runZones }}" as="z" hint-placeholder-count="4">
+              <span>{{ z.label }}</span>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isRace }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:ridgeIn .28s ease both;">
+          <div style="display:flex;align-items:baseline;gap:10px;margin:4px 0 2px;">
+            <div style="font:500 62px/0.85 Inter,sans-serif;letter-spacing:-0.04em;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ daysToGo }}</div>
+            <div>
+              <div style="font:400 12px/1.3 Inter,sans-serif;color:#9397ab;">days to go</div>
+              <div style="font:400 11px/1.3 Inter,sans-serif;color:#75798c;">Sat Oct 3, 2026</div>
+            </div>
+          </div>
+
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:24px 0 8px;">Course · 26.2 mi, net −2,560 ft</div>
+          <svg viewBox="0 0 322 108" width="100%" height="108" style="display:block;overflow:visible;">
+            <defs>
+              <linearGradient id="coursegrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#423a6a"></stop>
+                <stop offset="100%" stop-color="#161826"></stop>
+              </linearGradient>
+              <clipPath id="courseclip"><path d="{{ course.area }}"></path></clipPath>
+            </defs>
+            <path d="{{ course.area }}" fill="url(#coursegrad)"></path>
+            <g clip-path="url(#courseclip)">
+              <sc-for list="{{ course.contours }}" as="c" hint-placeholder-count="5">
+                <line x1="0" y1="{{ c.y }}" x2="322" y2="{{ c.y }}" stroke="rgba(233,233,237,0.10)" stroke-width="1"></line>
+              </sc-for>
+            </g>
+            <path d="{{ course.line }}" fill="none" stroke="#d2cefd" stroke-width="1.7"></path>
+            <sc-for list="{{ course.marks }}" as="m" hint-placeholder-count="3">
+              <g>
+                <line x1="{{ m.x }}" y1="{{ m.y }}" x2="{{ m.x }}" y2="88" stroke="rgba(233,233,237,0.22)" stroke-width="1"></line>
+                <text x="{{ m.x }}" y="103" fill="#75798c" font-size="9" font-family="Inter" text-anchor="{{ m.anchor }}">{{ m.t }}</text>
+              </g>
+            </sc-for>
+          </svg>
+
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:26px 0 10px;">Race-morning forecast</div>
+          <div style="border:1px solid rgba(233,233,237,0.09);border-radius:12px;background:var(--color-surface);overflow:hidden;">
+            <sc-for list="{{ weather }}" as="w" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-bottom:1px solid rgba(233,233,237,0.06);">
+                <div style="flex:1;font:400 11.5px/1.3 Inter,sans-serif;color:#9397ab;">{{ w.when }}</div>
+                <div style="font:500 13px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#e9e9ed;">{{ w.temp }}</div>
+                <div style="width:104px;text-align:right;font:400 10.5px/1.3 Inter,sans-serif;color:#75798c;">{{ w.cond }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font:400 9.5px/1.5 Inter,sans-serif;color:#595d6c;margin-top:8px;">Forecast resolution improves inside 10 days. Today's figures are the 30-year normal for Oct 3.</div>
+
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:26px 0 10px;">Predicted times, all distances</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <sc-for list="{{ predictions }}" as="p" hint-placeholder-count="4">
+              <div style="{{ p.style }}">
+                <div style="flex:1;">
+                  <div style="font:400 12.5px/1.3 Inter,sans-serif;color:#e9e9ed;">{{ p.dist }}</div>
+                  <div style="font:400 10px/1.3 Inter,sans-serif;color:#75798c;margin-top:3px;">{{ p.basis }}</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="{{ p.timeStyle }}">{{ p.time }}</div>
+                  <div style="font:400 10px/1.3 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#75798c;margin-top:3px;">{{ p.pace }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;margin:26px 0 10px;">Race day</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <sc-for list="{{ raceRows }}" as="r" hint-placeholder-count="4">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid rgba(233,233,237,0.08);padding:11px 2px;">
+                <div style="font:400 12.5px/1.3 Inter,sans-serif;color:#9397ab;">{{ r.l }}</div>
+                <div style="{{ r.style }}">{{ r.v }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isCoach }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:ridgeIn .28s ease both;display:flex;flex-direction:column;gap:12px;padding-top:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <div style="font:500 10.5px/1 Inter,sans-serif;letter-spacing:0.16em;text-transform:uppercase;color:#75798c;">Coach</div>
+            <div style="font:400 10.5px/1 Inter,sans-serif;color:#595d6c;">Sees your plan and Garmin data</div>
+          </div>
+          <div style="border:1px solid rgba(233,233,237,0.09);border-radius:9px;padding:10px 12px;font:400 10.5px/1.5 Inter,sans-serif;color:#75798c;">Training and nutrition guidance only. Ridge is not a clinician — for pain, injury or anything medical, see a physiotherapist or doctor.</div>
+          <sc-for list="{{ messages }}" as="m" hint-placeholder-count="3">
+            <div style="{{ m.wrap }}"><div style="{{ m.bubble }}">{{ m.text }}</div></div>
+          </sc-for>
+          <sc-if value="{{ coachTyping }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;"><div style="padding:11px 14px;border-radius:13px 13px 13px 4px;background:var(--color-surface);border:1px solid rgba(233,233,237,0.09);font:400 13px/1 Inter,sans-serif;color:#75798c;letter-spacing:0.2em;">···</div></div>
+          </sc-if>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;">
+            <sc-for list="{{ prompts }}" as="p" hint-placeholder-count="3">
+              <button onClick="{{ p.send }}" style="padding:8px 11px;border-radius:8px;border:1px solid rgba(233,233,237,0.11);background:transparent;color:#9397ab;font:400 11.5px/1 Inter,sans-serif;cursor:pointer;font-family:inherit;" style-hover="border-color:#5d5294;color:#e9e9ed" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">{{ p.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+      </div>
+
+      <sc-if value="{{ isCoach }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:0;right:0;bottom:84px;padding:10px 16px;background:#161826;border-top:1px solid rgba(233,233,237,0.09);display:flex;gap:8px;">
+        <input value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onDraftKey }}" placeholder="Ask about your training…" style="flex:1;background:var(--color-surface);border:1px solid rgba(233,233,237,0.11);border-radius:9px;padding:11px 12px;color:#e9e9ed;font:400 13px/1 Inter,sans-serif;font-family:inherit;outline:none;" style-focus="border-color:#9184d9">
+        <button onClick="{{ sendDraft }}" style="padding:0 16px;border-radius:9px;border:1px solid #5d5294;background:transparent;color:#b5abfc;font:500 12px/1 Inter,sans-serif;cursor:pointer;font-family:inherit;" style-hover="background:rgba(145,132,217,0.14)" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">Send</button>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ inApp }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:0;right:0;bottom:0;height:84px;padding:0 10px 28px;display:flex;align-items:flex-start;background:linear-gradient(to top,#161826 62%,rgba(22,24,38,0));border-top:1px solid rgba(233,233,237,0.09);">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6">
+          <button onClick="{{ t.go }}" style="{{ t.style }}" style-focus-visible="outline:2px solid #9184d9;outline-offset:2px">
+            <div style="{{ t.tickStyle }}"></div>
+            <div>{{ t.label }}</div>
+          </button>
+        </sc-for>
+      </div>
+      </sc-if>
+
+    </div>
+  </x-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:700,&quot;height&quot;:850},&quot;deloadThreshold&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:-22,&quot;min&quot;:-45,&quot;max&quot;:0,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Load&quot;,&quot;unit&quot;:&quot; TSB&quot;},&quot;showProjection&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Load&quot;},&quot;goalTime&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;sub-3:00&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Race&quot;}}">
+const PLAN = [
+  [1,'Base Building','May 26','2026-05-26',37,['6mi BOLDER BOULDER x2','2.2mi recovery','4mi easy','6mi w/ 3mi @7:10 tempo','Rest','12mi long @8:12','Rest']],
+  [2,'Base Building','Jun 2','2026-06-02',40,['5mi easy','5mi easy','7mi w/ 4mi @7:05 tempo','5mi easy','4mi easy','14mi long @8:13','Rest']],
+  [3,'Base Building','Jun 9','2026-06-09',39,['5mi easy','5mi easy','8mi w/ 4x1mi @7:05 tempo','5mi easy','16mi long @8:02','hurt','hurt']],
+  [4,'Threshold Dev','Jun 16','2026-06-16',29,['hurt','4mi easy','4mi easy','6mi easy','3mi easy','12mi long @7:49','Rest']],
+  [5,'Threshold Dev','Jun 23','2026-06-23',45,['5mi easy','6mi easy','8mi w/ 5mi @7:00 tempo','6mi easy','16mi long (12@7:50, 4@7:15)','3mi shakeout + Pearl Mile 8pm','Rest']],
+  [6,'Threshold Dev','Jun 30','2026-06-30',47,['5mi easy','6mi easy','9mi w/ 6x1mi @6:55 tempo','6mi easy','17mi long (12@7:50, 5@7:15)','4mi easy','Rest']],
+  [7,'Threshold Dev','Jul 7','2026-07-07',48,['5mi easy','6mi easy','8mi w/ 5x1mi @6:55 tempo','6mi easy','5mi easy','18mi long (10@7:50, 8@7:15)','Rest']],
+  [8,'Threshold Dev','Jul 14','2026-07-14',33,['4mi easy','5mi easy','6mi easy','5mi easy','13mi long @8:05','Rest','Rest']],
+  [9,'Strength & Vol','Jul 21','2026-07-21',53,['5mi easy','7mi easy','10mi w/ 6mi @6:40 tempo','7mi easy','19mi long @7:46','5mi easy','Rest']],
+  [10,'Strength & Vol','Jul 28','2026-07-28',54,['7mi easy','5mi easy','10mi w/ 7x1mi @6:40 tempo','7mi easy','20mi long (10@7:50, 10@7:10)','5mi easy','Rest']],
+  [11,'Strength & Vol','Aug 4','2026-08-04',55,['5mi easy','7mi easy','11mi w/ 7mi @6:35 tempo','7mi easy','20mi long @7:39','5mi easy','Rest']],
+  [12,'Strength & Vol','Aug 11','2026-08-11',34,['4mi easy','5mi easy','6mi easy','5mi easy','14mi long @8:00','Rest','Rest']],
+  [13,'Peak Phase','Aug 18','2026-08-18',56,['6mi easy','7mi easy','11mi w/ 8x1mi @6:30 tempo','7mi easy','5mi easy','20mi long (10@7:50, 10@7:00)','Rest']],
+  [14,'Peak Phase','Aug 25','2026-08-25',61,['6mi easy','7mi easy + 5mi Cool Down Club','11mi w/ 9mi @6:30 tempo','5mi easy','5mi easy','22mi long (12@7:45, 10@6:50)','Rest']],
+  [15,'Peak Phase','Sep 1','2026-09-01',54,['6mi easy','3mi + 4mi (run club)','11mi w/ 8mi @6:45 tempo','7mi easy','5mi easy','18mi long (10@7:45, 8@6:52)','Rest']],
+  [16,'Taper & Race','Sep 8','2026-09-08',47,['5mi easy','6mi easy','9mi w/ 6mi @6:45','6mi easy','5mi easy','16mi long (10@7:45, 6@7:00)','Rest']],
+  [17,'Taper & Race','Sep 15','2026-09-15',38,['4mi easy','6mi easy','7mi w/ 4mi @6:50','5mi easy','4mi easy','12mi long @7:45','Rest']],
+  [18,'Cecile Race Week','Sep 22','2026-09-22',29,['4mi easy','5mi easy','4mi w/ strides','Rest','3mi shakeout','Rest','RACE 13.1mi - pace Cecile']],
+  [19,'Race Week','Sep 29','2026-09-29',34,['Rest','3mi easy','2mi shakeout','2-3mi w/ strides','Rest','RACE 26.2mi - goal sub-3:00','Rest']],
+];
+const DOW = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const TODAY_W = 14, TODAY_D = 3;
+const PHASE_TONE = { 'Base Building':'#595d6c', 'Threshold Dev':'#5d5294', 'Strength & Vol':'#796cbf', 'Peak Phase':'#9184d9', 'Taper & Race':'#b5abfc', 'Cecile Race Week':'#b5abfc', 'Race Week':'#d2cefd' };
+const SPLITS = [['8:05',485,132],['6:44',404,149],['6:41',401,153],['6:47',407,156],['6:43',403,158],['6:45',405,160],['6:40',400,162],['6:38',398,164],['6:42',402,166],['7:30',450,148],['7:45',465,138]];
+const ZONES = [['Z2',6],['Z3',19],['Z4',41],['Z5',10]];
+
+const RUNS = [
+  { date: 'Thu Sep 3', type: 'EASY', miles: '7.03', pace: '8:34', hr: 128, cad: 164, gain: 210, target: '8:30', tempoFrom: 99, tempoTo: 99,
+    splits: [['8:41',521,120],['8:36',516,125],['8:32',512,128],['8:29',509,130],['8:35',515,131],['8:38',518,130],['8:30',510,132]],
+    zones: [['Z1',12],['Z2',47],['Z3',1],['Z4',0]] },
+  { date: 'Wed Sep 2', type: 'LACTATE THRESHOLD', miles: '11.02', pace: '6:59', hr: 158, cad: 168, gain: 177, target: '6:45', tempoFrom: 1, tempoTo: 8,
+    splits: SPLITS, zones: ZONES },
+  { date: 'Tue Sep 1', type: 'EASY', miles: '6.01', pace: '8:47', hr: 124, cad: 162, gain: 145, target: '8:45', tempoFrom: 99, tempoTo: 99,
+    splits: [['8:55',535,118],['8:49',529,122],['8:44',524,125],['8:46',526,126],['8:42',522,127],['8:48',528,125]],
+    zones: [['Z1',18],['Z2',35],['Z3',0],['Z4',0]] },
+  { date: 'Sat Aug 30', type: 'LONG RUN', miles: '22.04', pace: '7:21', hr: 145, cad: 166, gain: 604, target: '7:45 / 6:50', tempoFrom: 12, tempoTo: 21,
+    splits: [['7:52',472,131],['7:47',467,134],['7:44',464,136],['7:46',466,138],['7:43',463,139],['7:45',465,140],['7:41',461,141],['7:44',464,142],['7:42',462,143],['7:46',466,144],['7:40',460,145],['7:38',458,146],['6:58',418,152],['6:54',414,154],['6:51',411,156],['6:49',409,157],['6:52',412,158],['6:48',408,160],['6:50',410,161],['6:47',407,163],['6:53',413,164],['7:02',422,162]],
+    zones: [['Z1',8],['Z2',94],['Z3',52],['Z4',8]] },
+  { date: 'Fri Aug 29', type: 'EASY', miles: '5.02', pace: '8:52', hr: 121, cad: 161, gain: 98, target: '8:45', tempoFrom: 99, tempoTo: 99,
+    splits: [['9:01',541,116],['8:55',535,119],['8:48',528,122],['8:50',530,123],['8:46',526,124]],
+    zones: [['Z1',22],['Z2',22],['Z3',0],['Z4',0]] },
+  { date: 'Thu Aug 28', type: 'EASY', miles: '5.01', pace: '8:44', hr: 126, cad: 163, gain: 132, target: '8:45', tempoFrom: 99, tempoTo: 99,
+    splits: [['8:52',532,120],['8:47',527,124],['8:41',521,127],['8:43',523,128],['8:38',518,130]],
+    zones: [['Z1',14],['Z2',30],['Z3',0],['Z4',0]] },
+];
+
+const PREDICTIONS = [
+  ['5K', '17:42', '5:42 /mi', 'Aug 12 · Pearl Mile carry-over'],
+  ['10K', '36:48', '5:56 /mi', 'Modelled from VO2 61.0'],
+  ['Half marathon', '1:21:34', '6:14 /mi', 'PB 1:31:00 · Mar 2026'],
+  ['Marathon', '2:58:40', '6:49 /mi', 'PB 3:27:59 · Oct 2025'],
+];
+
+const WEATHER = [
+  ['Start · 6:45 AM', '54 °F', 'Clear, 4 mph SW'],
+  ['Mile 13 · 8:15 AM', '61 °F', 'Clear, 6 mph SW'],
+  ['Mile 20 · 9:05 AM', '68 °F', 'Sun, 7 mph SW'],
+  ['Finish · 9:45 AM', '74 °F', 'Sun, 8 mph SW'],
+];
+const ZONE_TONE = ['#3f424d','#5d5294','#9184d9','#d2cefd'];
+const COURSE = [[0,5240],[2,5150],[4,5010],[6.5,5060],[7.6,5680],[9,5600],[11,5280],[13,5060],[15,4720],[17,4200],[19,3760],[21,3320],[23,3020],[25,2790],[26.2,2680]];
+
+const PERMS = [
+  ['Activities', 'Every run, ride and walk', 1],
+  ['Heart rate & zones', 'Per-second HR, zone minutes', 1],
+  ['VO2 max & training load', 'Garmin estimates, per run', 1],
+  ['Sleep & body battery', 'Recovery signals', 1],
+  ['Course & elevation', 'Route profiles for your races', 0],
+];
+
+const QUESTIONS = [
+  { k:'years', t:'How long have you been running consistently?', h:'We check this against your Garmin history.', o:['Under a year','1–3 years','3–5 years','5+ years'] },
+  { k:'races', t:'How many marathons have you finished?', h:'', o:['None yet','1–2','3–5','6 or more'] },
+  { k:'days', t:'How many days a week can you run?', h:'Rest days get placed around your long run.', o:['3','4','5','6','7'] },
+  { k:'long', t:'Which day suits your long run?', h:'', o:['Saturday','Sunday','Flexible'] },
+  { k:'niggles', t:'Anything bothering you right now?', h:'Affects how fast volume ramps.', o:['Nothing','A minor niggle','Managing an injury'] },
+];
+const Q_DEFAULTS = { years:'5+ years', races:'3–5', days:'6', long:'Saturday', niggles:'Nothing' };
+
+const ANALYSIS = [
+  ['Activities read', '412'],
+  ['Longest run in the last year', '22.0 mi'],
+  ['Peak week', '61 mi · Aug 25'],
+  ['VO2 max', '61.0'],
+  ['Threshold pace', '6:38 /mi'],
+  ['Aerobic decoupling, long runs', '4.1%'],
+];
+
+const COACH_OPENING = [
+  ['coach', 'Plan is loaded. 19 weeks, peaking at 61 mi in week 14, then a three-week taper into Oct 3.'],
+];
+const COACH_REPLIES = [
+  [/deload|cut ?back|recover|rest week/i, 'Form is at −33 today, the deepest of the cycle. Week 16 already drops to 47 mi. If you want it sooner, I can pull the week-16 cutback forward and move the 18 mi long run to week 16 — you would lose one quality session, not fitness.'],
+  [/taper/i, 'Taper starts Sep 8. Volume goes 54 → 47 → 38 → 29, intensity holds. Form projects back through zero on Sep 22 and reaches +12 by race morning.'],
+  [/pace|goal|sub.?3|time/i, 'Sub-3:00 is 6:52 /mi. Your last threshold run held 6:42 for eight miles at 158 bpm. St. George drops 2,560 ft, so the first four miles will feel too easy — hold 7:00 there and bank nothing.'],
+  [/injur|hurt|pain|niggle|sore/i, 'Two flagged days in week 3 and one in week 4. If it returns, I will convert the tempo to an easy run and hold long-run distance flat rather than cutting it. I can only reason about training load — anything that hurts while walking, or worsens over three days, is a question for a physio, not for me.'],
+  [/fuel|nutrition|gel|carb/i, 'At 6:52 pace you are looking at 60–90 g of carbohydrate an hour, which is a gel every 25 minutes from mile 4. Practise it on the week-16 long run, not on race day.'],
+  [/long run|22|20 ?mi/i, 'Your 22 mi on Aug 30 decoupled 4.1%, which is a well-fuelled aerobic run. Week 15 asks for 18 mi with the last 8 at 6:52 — that is the last hard long run of the cycle.'],
+  [/heat|hot|weather/i, 'St. George starts at 6:45 am at around 55 °F and climbs. Your summer runs at 85 °F mean the race day conditions will feel favourable.'],
+];
+const COACH_FALLBACK = 'I can work from your plan, your Garmin history or the course. Ask about the taper, your goal pace, deload timing, or fuelling.';
+const PROMPTS = ['Should I deload this week?', 'Is sub-3:00 realistic?', 'How does the taper work?', 'Fuelling for race day'];
+
+const RACE_DB = [
+  { name: 'St. George Marathon', where: 'St. George, UT', date: 'Oct 3, 2026', dist: '26.2', net: '−2,560', gain: '1,010', start: 5240, finish: 2680, weeks: 19, field: '7,800', temp: '55–78 °F', bq: 'Boston qualifier', note: 'Net downhill point-to-point through Snow Canyon. The Veyo hill at mile 7.6 is the only real climb; the last 7 miles drop 1,100 ft.',
+    profile: [[0,5240],[2,5150],[4,5010],[6.5,5060],[7.6,5680],[9,5600],[11,5280],[13,5060],[15,4720],[17,4200],[19,3760],[21,3320],[23,3020],[25,2790],[26.2,2680]] },
+  { name: 'Chicago Marathon', where: 'Chicago, IL', date: 'Oct 11, 2026', dist: '26.2', net: '−7', gain: '230', start: 597, finish: 590, weeks: 20, field: '52,000', temp: '44–60 °F', bq: 'Boston qualifier', note: 'Flat and fast, five loops through 29 neighbourhoods. Crowd depth makes early pacing the main risk.',
+    profile: [[0,597],[2,590],[4,600],[6,592],[8,586],[10,596],[12,604],[14,594],[16,588],[18,598],[20,592],[22,586],[24,600],[25.8,612],[26.2,590]] },
+  { name: 'CIM · California International', where: 'Sacramento, CA', date: 'Dec 6, 2026', dist: '26.2', net: '−340', gain: '400', start: 305, finish: 25, weeks: 28, field: '9,000', temp: '38–58 °F', bq: 'Boston qualifier', note: 'Gently rolling net downhill from Folsom. Known as a PR course; the rollers end by mile 20.',
+    profile: [[0,305],[2,268],[4,290],[6,238],[8,262],[10,205],[12,228],[14,172],[16,190],[18,140],[20,118],[22,82],[24,52],[25,38],[26.2,25]] },
+  { name: 'Boston Marathon', where: 'Boston, MA', date: 'Apr 20, 2026', dist: '26.2', net: '−460', gain: '790', start: 490, finish: 30, weeks: 12, field: '30,000', temp: '46–62 °F', bq: 'Qualifying time required', note: 'Downhill first 16 miles, then the Newton hills and Heartbreak at mile 20.5. Quad damage decides the finish.',
+    profile: [[0,490],[1,390],[3,250],[5,200],[8,150],[11,120],[13,100],[15,60],[16,50],[17.5,180],[19,150],[20.5,240],[21.5,190],[23,120],[24.5,60],[26.2,30]] },
+  { name: 'Grandma\'s Marathon', where: 'Duluth, MN', date: 'Jun 20, 2026', dist: '26.2', net: '−250', gain: '340', start: 850, finish: 600, weeks: 5, field: '7,500', temp: '50–65 °F', bq: 'Boston qualifier', note: 'Point-to-point along Lake Superior. Cool lake air, slight net drop, minimal crowd congestion.',
+    profile: [[0,850],[2,820],[4,838],[6,790],[8,806],[10,760],[12,742],[14,760],[16,712],[18,690],[20,706],[22,662],[24,628],[25,640],[26.2,600]] },
+];
+
+function miles(t) {
+  if (!t) return 0;
+  const m = /(\d+(?:\.\d+)?)\s*mi/.exec(t);
+  return m ? parseFloat(m[1]) : 0;
+}
+function isHard(t) { return /tempo|@6:|@7:0|RACE|strides/.test(t || ''); }
+function dateOf(wi, di) {
+  const d = new Date(PLAN[wi][3] + 'T12:00:00');
+  d.setDate(d.getDate() + di - 1);
+  return d;
+}
+function fmt(d) { return MON[d.getMonth()] + ' ' + d.getDate(); }
+function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    const done = {};
+    for (let w = 0; w < 19; w++) for (let d = 0; d < 7; d++) {
+      if (w < TODAY_W || (w === TODAY_W && d <= TODAY_D)) done[w + '-' + d] = true;
+    }
+    this.state = {
+      flow: 'welcome', screen: 'today', viewW: TODAY_W, done,
+      scrub: TODAY_W * 7 + TODAY_D,
+      connectProg: 0, connecting: false, connected: false,
+      qi: 0, answers: Object.assign({}, Q_DEFAULTS),
+      analyzeStep: 0,
+      goal: 'sub-3:00', peak: 61, days: '6', longDay: 'Saturday',
+      raceQuery: '', raceSearching: false, racePicked: null, planView: 'volume', calMonth: 4,
+      runIdx: 1, email: '', pw: '', name: '',
+      messages: COACH_OPENING.slice(), draft: '', coachTyping: false,
+    };
+    this.series = this.buildSeries();
+    this.timers = [];
+  }
+  componentWillUnmount() { this.timers.forEach(clearInterval); }
+
+  buildSeries() {
+    const load = [];
+    for (let w = 0; w < 19; w++) for (let d = 0; d < 7; d++) {
+      const t = PLAN[w][5][d];
+      load.push(miles(t) * 9 * (isHard(t) ? 1.28 : 1));
+    }
+    let ctl = 72, atl = 72;
+    const C = [], A = [];
+    for (const l of load) { ctl += (l - ctl) / 42; atl += (l - atl) / 7; C.push(ctl); A.push(atl); }
+    const ti = TODAY_W * 7 + TODAY_D;
+    const sm = (arr, i) => (arr[Math.max(0, i - 1)] + arr[i] + arr[Math.min(arr.length - 1, i + 1)]) / 3;
+    const Cs = C.map((v, i) => sm(C, i)), As = A.map((v, i) => sm(A, i));
+    const kc = 98 / Cs[ti], ka = 124 / As[ti];
+    const off = -33 - (98 - 124);
+    return Cs.map((v, i) => ({ ctl: v * kc, atl: As[i] * ka, tsb: v * kc - As[i] * ka + off }));
+  }
+
+  set(k, v) { this.setState({ [k]: v }); }
+  go(flow) { this.setState({ flow }); }
+
+  startConnect() {
+    if (this.state.connecting || this.state.connected) { this.setState({ flow: 'q' }); return; }
+    this.setState({ connecting: true, connectProg: 0 });
+    const iv = setInterval(() => {
+      this.setState(s => {
+        const p = s.connectProg + 4;
+        if (p >= 100) { clearInterval(iv); return { connectProg: 100, connecting: false, connected: true }; }
+        return { connectProg: p };
+      });
+    }, 60);
+    this.timers.push(iv);
+  }
+
+  startAnalysis() {
+    this.setState({ flow: 'analyzing', analyzeStep: 0 });
+    const iv = setInterval(() => {
+      this.setState(s => {
+        if (s.analyzeStep >= ANALYSIS.length) { clearInterval(iv); return null; }
+        return { analyzeStep: s.analyzeStep + 1 };
+      });
+    }, 420);
+    this.timers.push(iv);
+  }
+
+  searchRace(q) {
+    this.setState({ raceQuery: q, raceSearching: q.trim().length > 1, racePicked: null });
+  }
+
+  pickRace(r) {
+    this.setState({ racePicked: r, raceQuery: r.name, raceSearching: false });
+  }
+
+  send(text) {
+    if (!text.trim()) return;
+    const hit = COACH_REPLIES.find(r => r[0].test(text));
+    this.setState(s => ({ messages: s.messages.concat([['me', text]]), draft: '', coachTyping: true }));
+    const to = setTimeout(() => {
+      this.setState(s => ({ messages: s.messages.concat([['coach', hit ? hit[1] : COACH_FALLBACK]]), coachTyping: false }));
+    }, 900);
+    this.timers.push(to);
+  }
+
+  toggle(w, d) {
+    this.setState(s => {
+      const done = Object.assign({}, s.done), k = w + '-' + d;
+      if (done[k]) delete done[k]; else done[k] = true;
+      return { done };
+    });
+  }
+
+  scrubFrom(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const f = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+    this.setState({ scrub: Math.round(f * 132) });
+  }
+
+  renderVals() {
+    const S = this.state, W = 322, H = 140, N = 133;
+    const ti = TODAY_W * 7 + TODAY_D;
+    const ser = this.series;
+    const F = S.flow;
+    const appScreens = ['today', 'week', 'plan', 'load', 'run', 'race', 'coach'];
+    const inApp = F === 'app';
+
+    const navBase = 'display:flex;align-items:center;gap:9px;text-align:left;padding:8px 11px;border-radius:9px;font:400 12px/1 Inter,sans-serif;cursor:pointer;font-family:inherit;background:transparent;';
+    const navItem = (n, active, label, num, go) => ({ num: pad(num), label, go, style: navBase + 'border:1px solid ' + (active ? '#5d5294' : 'rgba(233,233,237,0.08)') + ';color:' + (active ? '#e9e9ed' : '#75798c') + ';' });
+
+    const onboardDefs = [['welcome', 'Welcome'], ['signup', 'Create account'], ['connect', 'Connect Garmin'], ['q', 'Experience'], ['analyzing', 'Analysis'], ['race-setup', 'Your race'], ['plan-review', 'Draft plan']];
+    const appDefs = [['today', 'Today'], ['week', 'Week'], ['plan', 'Plan'], ['load', 'Load'], ['run', 'Run detail'], ['race', 'Race day'], ['coach', 'Coach']];
+
+    // ── load ridge ────────────────────────────────────────────
+    const maxV = Math.max.apply(null, ser.map(p => Math.max(p.ctl, p.atl))) * 1.1;
+    const X = i => (i / (N - 1)) * W;
+    const Y = v => H - (v / maxV) * H;
+    const line = (key, a, b) => ser.slice(a, b + 1).map((p, k) => (k ? 'L' : 'M') + X(a + k).toFixed(1) + ',' + Y(p[key]).toFixed(1)).join(' ');
+    const areaAll = 'M0,' + H + ' ' + ser.map((p, i) => 'L' + X(i).toFixed(1) + ',' + Y(p.ctl).toFixed(1)).join(' ') + ' L' + W + ',' + H + ' Z';
+    const contours = [40, 60, 80, 100, 120].map(v => ({ y: Y(v).toFixed(1) }));
+
+    const thresh = this.props.deloadThreshold ?? -22;
+    const showProj = this.props.showProjection ?? true;
+    const bands = []; let run = null;
+    ser.forEach((p, i) => {
+      if (p.tsb < thresh) { if (!run) run = [i, i]; else run[1] = i; }
+      else if (run) { bands.push(run); run = null; }
+    });
+    if (run) bands.push(run);
+    const deloadBands = bands.filter(b => b[1] - b[0] > 3).map(b => ({ x: X(b[0]).toFixed(1), w: (X(b[1]) - X(b[0])).toFixed(1) }));
+
+    let cross = ser.findIndex((p, i) => i > ti && p.tsb >= 0);
+    if (cross < 0) cross = N - 1;
+    const crossDate = dateOf(Math.floor(cross / 7), cross % 7);
+
+    const si = Math.max(0, Math.min(N - 1, S.scrub));
+    const sp = ser[si], sd = dateOf(Math.floor(si / 7), si % 7);
+    const xLabels = [0, 33, 66, 99, 132].map(i => ({ x: X(i).toFixed(1), t: fmt(dateOf(Math.floor(i / 7), i % 7)) }));
+
+    // ── mini form chart ───────────────────────────────────────
+    const mW = 322, mH = 56, tsbMax = 46;
+    const mY = v => mH / 2 - (v / tsbMax) * (mH / 2);
+    const mX = i => (i / (N - 1)) * mW;
+    const mLine = (a, b) => ser.slice(a, b + 1).map((p, k) => (k ? 'L' : 'M') + mX(a + k).toFixed(1) + ',' + mY(p.tsb).toFixed(1)).join(' ');
+    const negPath = 'M0,' + mY(0) + ' ' + ser.map((p, i) => 'L' + mX(i).toFixed(1) + ',' + mY(Math.min(0, p.tsb)).toFixed(1)).join(' ') + ' L' + mW + ',' + mY(0) + ' Z';
+    const posPath = 'M0,' + mY(0) + ' ' + ser.map((p, i) => 'L' + mX(i).toFixed(1) + ',' + mY(Math.max(0, p.tsb)).toFixed(1)).join(' ') + ' L' + mW + ',' + mY(0) + ' Z';
+
+    // ── today ─────────────────────────────────────────────────
+    const tText = PLAN[TODAY_W][5][TODAY_D];
+    const todayDone = !!S.done[TODAY_W + '-' + TODAY_D];
+    const segs = [[1, 'WU', '#292b31'], [5, '5 mi @ 8:30', '#423a6a'], [1, 'CD', '#292b31']];
+    const todaySegments = segs.map(s => ({
+      style: 'flex:' + s[0] + ';background:' + s[2] + ';display:flex;align-items:center;justify-content:center;font:500 9.5px/1 Inter,sans-serif;letter-spacing:0.1em;color:' + (s[2] === '#292b31' ? '#75798c' : '#d2cefd') + ';white-space:nowrap;overflow:hidden;',
+      label: s[1],
+    }));
+
+    const statVal = c => 'font:500 21px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:' + c + ';';
+    const headlineStats = [
+      { val: '98', label: 'Fitness', sub: 'CTL 42d', valStyle: statVal('#e9e9ed') },
+      { val: '124', label: 'Fatigue', sub: 'ATL 7d', valStyle: statVal('#e9e9ed') },
+      { val: '−33', label: 'Form', sub: 'CTL − ATL', valStyle: statVal('#b5abfc') },
+    ];
+
+    const wkMax = Math.max.apply(null, PLAN[TODAY_W][5].map(miles)) || 1;
+    const weekStrip = PLAN[TODAY_W][5].map((t, i) => {
+      const m = miles(t), d = !!S.done[TODAY_W + '-' + i], isT = i === TODAY_D;
+      return {
+        label: DOW[i][0],
+        go: () => this.setState({ screen: 'week', viewW: TODAY_W }),
+        wrapStyle: 'flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;height:100%;background:none;border:none;padding:0;cursor:pointer;font-family:inherit;',
+        barStyle: 'width:100%;border-radius:3px 3px 0 0;height:' + Math.max(4, (m / wkMax) * 48) + 'px;background:' + (isT ? '#b5abfc' : d ? '#5d5294' : 'rgba(233,233,237,0.10)') + ';border-top:' + (isT ? '0' : '1px solid rgba(233,233,237,0.14)') + ';',
+        labelStyle: 'font:' + (isT ? '500' : '400') + ' 9.5px/1 Inter,sans-serif;letter-spacing:0.06em;color:' + (isT ? '#b5abfc' : '#595d6c') + ';',
+      };
+    });
+
+    // ── week ──────────────────────────────────────────────────
+    const vw = PLAN[S.viewW];
+    const viewDays = vw[5].map((t, i) => {
+      const d = !!S.done[S.viewW + '-' + i], m = miles(t), isT = S.viewW === TODAY_W && i === TODAY_D;
+      return {
+        dow: DOW[i], text: t, miles: m ? m + ' mi' : '—',
+        date: fmt(dateOf(S.viewW, i)),
+        toggle: () => this.toggle(S.viewW, i),
+        rowStyle: 'display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:1px solid ' + (isT ? '#5d5294' : 'rgba(233,233,237,0.09)') + ';border-radius:11px;background:' + (isT ? 'rgba(145,132,217,0.09)' : 'var(--color-surface)') + ';padding:11px 13px;cursor:pointer;font-family:inherit;',
+        dayStyle: 'width:30px;font:500 9.5px/1 Inter,sans-serif;letter-spacing:0.1em;color:' + (isT ? '#b5abfc' : '#595d6c') + ';',
+        textStyle: 'font:400 13px/1.35 Inter,sans-serif;color:' + (d ? '#75798c' : '#e9e9ed') + ';text-decoration:' + (d ? 'line-through' : 'none') + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;',
+        milesStyle: 'font:400 11px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#75798c;white-space:nowrap;',
+        checkStyle: 'width:18px;height:18px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;border:1px solid ' + (d ? '#9184d9' : 'rgba(233,233,237,0.18)') + ';background:' + (d ? '#9184d9' : 'transparent') + ';color:' + (d ? '#161826' : 'transparent') + ';',
+      };
+    });
+
+    // ── plan bars ─────────────────────────────────────────────
+    const pMax = 62, pH = 112;
+    const planBars = PLAN.map((w, i) => {
+      const h = (w[4] / pMax) * pH;
+      return {
+        x: (i * (W / 19) + 2).toFixed(1), w: (W / 19 - 4).toFixed(1),
+        y: (pH - h).toFixed(1), h: h.toFixed(1),
+        fill: i === TODAY_W && inApp ? '#b5abfc' : PHASE_TONE[w[1]],
+        go: () => this.setState({ screen: 'week', viewW: i }),
+      };
+    });
+    const planRidge = PLAN.map((w, i) => (i ? 'L' : 'M') + (i * (W / 19) + W / 38).toFixed(1) + ',' + (pH - (w[4] / pMax) * pH).toFixed(1)).join(' ');
+
+    // draft-review chart, sized to the picked race's runway
+    const dWeeks = S.racePicked ? S.racePicked.weeks : 19;
+    const dPlan = dWeeks >= 19 ? PLAN.slice() : PLAN.slice(19 - dWeeks);
+    const dStep = W / Math.max(dPlan.length, 1);
+    const draftBars = dPlan.map((w, i) => {
+      const h = (w[4] / pMax) * pH;
+      return {
+        x: (i * dStep + 2).toFixed(1), w: Math.max(dStep - 4, 2).toFixed(1),
+        y: (pH - h).toFixed(1), h: h.toFixed(1), fill: PHASE_TONE[w[1]],
+      };
+    });
+    const draftRidge = dPlan.map((w, i) => (i ? 'L' : 'M') + (i * dStep + dStep / 2).toFixed(1) + ',' + (pH - (w[4] / pMax) * pH).toFixed(1)).join(' ');
+    const phaseNames = [];
+    PLAN.forEach(w => { if (!phaseNames.includes(w[1])) phaseNames.push(w[1]); });
+    const phaseRows = phaseNames.map(n => {
+      const ws = PLAN.filter(w => w[1] === n);
+      return {
+        name: n, weeks: 'Wk ' + ws[0][0] + (ws.length > 1 ? '–' + ws[ws.length - 1][0] : ''),
+        mi: ws.reduce((a, w) => a + w[4], 0),
+        swatch: 'width:4px;height:30px;border-radius:2px;background:' + PHASE_TONE[n] + ';flex:none;',
+      };
+    });
+
+    // ── course ────────────────────────────────────────────────
+    const mkCourse = (cW, cH, pts) => {
+      const P = pts || COURSE;
+      const elev = P.map(p => p[1]);
+      const span = Math.max.apply(null, elev) - Math.min.apply(null, elev);
+      const padF = Math.max(span * 0.28, 40);
+      const lo = Math.min.apply(null, elev) - padF, hi = Math.max.apply(null, elev) + padF;
+      const cX = m => (m / 26.2) * cW, cY = f => cH - ((f - lo) / (hi - lo)) * cH;
+      return {
+        cX, cY,
+        line: P.map((p, i) => (i ? 'L' : 'M') + cX(p[0]).toFixed(1) + ',' + cY(p[1]).toFixed(1)).join(' '),
+        area: 'M0,' + cH + ' ' + P.map(p => 'L' + cX(p[0]).toFixed(1) + ',' + cY(p[1]).toFixed(1)).join(' ') + ' L' + cW + ',' + cH + ' Z',
+      };
+    };
+    const big = mkCourse(322, 88, COURSE);
+    const course = {
+      line: big.line, area: big.area,
+      contours: [3000, 3800, 4600, 5400].map(f => ({ y: big.cY(f).toFixed(1) })),
+      marks: [
+        { x: big.cX(0).toFixed(1), y: big.cY(5240).toFixed(1), t: 'Start 5,240′', anchor: 'start' },
+        { x: big.cX(7.6).toFixed(1), y: big.cY(5680).toFixed(1), t: 'Veyo', anchor: 'middle' },
+        { x: big.cX(19).toFixed(1), y: big.cY(3760).toFixed(1), t: 'Mi 19', anchor: 'middle' },
+        { x: big.cX(26.2).toFixed(1), y: big.cY(2680).toFixed(1), t: '2,680′', anchor: 'end' },
+      ],
+    };
+    const small = mkCourse(290, 62, S.racePicked ? S.racePicked.profile : COURSE);
+
+    // ── run detail ────────────────────────────────────────────
+    const R = RUNS[Math.max(0, Math.min(RUNS.length - 1, S.runIdx))];
+    const RS = R.splits;
+    const fastest = Math.min.apply(null, RS.map(s => s[1]));
+    const slowest = Math.max.apply(null, RS.map(s => s[1]));
+    const splits = RS.map((s, i) => {
+      const w = 26 + 46 * (1 - (s[1] - fastest) / Math.max(slowest - fastest, 1));
+      const tempo = i >= R.tempoFrom && i <= R.tempoTo;
+      return {
+        mi: i + 1, pace: s[0], hr: s[2],
+        laneStyle: 'position:absolute;left:0;top:5px;height:16px;width:' + w.toFixed(1) + '%;border-radius:2px;background:' + (tempo ? 'linear-gradient(90deg,#5d5294,#9184d9)' : '#292b31') + ';',
+        paceStyle: 'position:absolute;left:' + (w + 1.5).toFixed(1) + '%;top:6px;font:400 11px/14px Inter,sans-serif;font-variant-numeric:tabular-nums;color:' + (tempo ? '#d2cefd' : '#75798c') + ';white-space:nowrap;',
+      };
+    });
+    const runZones = R.zones.map((z, i) => ({ style: 'flex:' + Math.max(z[1], 0.4) + ';background:' + ZONE_TONE[i] + ';', label: z[0] + ' ' + z[1] + 'm' }));
+
+    // ── onboarding pieces ─────────────────────────────────────
+    const q = QUESTIONS[S.qi];
+    const optBase = 'display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;padding:13px 15px;border-radius:11px;cursor:pointer;font-family:inherit;font:400 13.5px/1 Inter,sans-serif;';
+    const chipBase = 'flex:1;padding:9px 4px;border-radius:8px;cursor:pointer;font-family:inherit;font:400 11.5px/1 Inter,sans-serif;';
+
+    const setAnswer = (k, v) => {
+      const last = this.state.qi >= QUESTIONS.length - 1;
+      this.setState(s => {
+        const answers = Object.assign({}, s.answers, { [k]: v });
+        return s.qi < QUESTIONS.length - 1 ? { answers, qi: s.qi + 1 } : { answers };
+      });
+      if (last) this.startAnalysis();
+    };
+
+    const adjuster = (label, value, key, opts, apply) => ({
+      label, value,
+      options: opts.map(o => ({
+        label: o,
+        pick: () => apply(o),
+        style: chipBase + 'border:1px solid ' + (String(value).startsWith(String(o)) ? '#9184d9' : 'rgba(233,233,237,0.11)') + ';background:' + (String(value).startsWith(String(o)) ? 'rgba(145,132,217,0.14)' : 'transparent') + ';color:' + (String(value).startsWith(String(o)) ? '#d2cefd' : '#9397ab') + ';',
+      })),
+    });
+
+    const raceRow = (l, v, accent) => ({ l, v, style: 'font:500 14px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:' + (accent ? '#b5abfc' : '#e9e9ed') + ';' });
+
+    // ── calendar view ─────────────────────────────────────────
+    const cal = (() => {
+      const first = dateOf(0, 0), last = dateOf(18, 6);
+      const months = [];
+      let cur = new Date(first.getFullYear(), first.getMonth(), 1);
+      while (cur <= last) { months.push(new Date(cur)); cur.setMonth(cur.getMonth() + 1); }
+      const mi = Math.max(0, Math.min(months.length - 1, S.calMonth));
+      const m = months[mi];
+      const y = m.getFullYear(), mo = m.getMonth();
+      const daysIn = new Date(y, mo + 1, 0).getDate();
+      const lead = (new Date(y, mo, 1).getDay() + 6) % 7;
+
+      const byDate = {};
+      for (let w = 0; w < 19; w++) for (let d = 0; d < 7; d++) {
+        const dt = dateOf(w, d);
+        byDate[dt.getFullYear() + '-' + dt.getMonth() + '-' + dt.getDate()] = { w, d, text: PLAN[w][5][d] };
+      }
+      const todayKey = (() => { const t = dateOf(TODAY_W, TODAY_D); return t.getFullYear() + '-' + t.getMonth() + '-' + t.getDate(); })();
+
+      const cells = [];
+      for (let i = 0; i < lead; i++) cells.push({
+        blank: true, num: '', mi: '',
+        style: 'aspect-ratio:1;background:transparent;border:none;padding:0;pointer-events:none;',
+        numStyle: 'display:none;', miStyle: 'display:none;', dotStyle: 'display:none;',
+      });
+      for (let d = 1; d <= daysIn; d++) {
+        const key = y + '-' + mo + '-' + d;
+        const e = byDate[key];
+        const isToday = key === todayKey;
+        const mil = e ? miles(e.text) : 0;
+        const long = e && /long|RACE 26|RACE 13/.test(e.text);
+        const quality = e && !long && isHard(e.text);
+        const rest = e && mil === 0;
+        const done = e && !!S.done[e.w + '-' + e.d];
+        const tone = !e ? 'transparent' : long ? '#b5abfc' : quality ? '#9184d9' : rest ? 'rgba(233,233,237,0.14)' : '#5d5294';
+        cells.push({
+          blank: false, num: d, mi: e && mil ? mil : '',
+          go: e ? () => this.setState({ screen: 'week', viewW: e.w }) : null,
+          style: 'aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:8px;cursor:' + (e ? 'pointer' : 'default') + ';font-family:inherit;padding:0;border:1px solid ' + (isToday ? '#9184d9' : e ? 'rgba(233,233,237,0.07)' : 'transparent') + ';background:' + (isToday ? 'rgba(145,132,217,0.14)' : e ? 'var(--color-surface)' : 'transparent') + ';opacity:' + (e ? (done ? 0.55 : 1) : 0.3) + ';',
+          numStyle: 'font:' + (isToday ? '500' : '400') + ' 11px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:' + (isToday ? '#d2cefd' : e ? '#9397ab' : '#595d6c') + ';',
+          miStyle: 'font:500 9px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:' + (long ? '#b5abfc' : quality ? '#b5abfc' : '#75798c') + ';',
+          dotStyle: 'width:14px;height:2px;border-radius:1px;background:' + tone + ';',
+        });
+      }
+      const monthMiles = cells.reduce((a, c) => a + (typeof c.mi === 'number' ? c.mi : 0), 0);
+      return {
+        cells, count: months.length,
+        label: MON[mo] + ' ' + y,
+        sub: Math.round(monthMiles) + ' mi scheduled',
+      };
+    })();
+
+    const scrollStyle = inApp
+      ? 'flex:1;overflow-y:auto;padding:0 20px 96px;'
+      : 'flex:1;overflow-y:auto;padding:0 22px 20px;';
+
+    return {
+      inApp, scrollStyle,
+      navOnboard: onboardDefs.map((n, i) => navItem(n[0], F === n[0], n[1], i + 1, () => {
+        if (n[0] === 'analyzing') this.startAnalysis(); else this.go(n[0]);
+      })),
+      navApp: appDefs.map((n, i) => navItem(n[0], inApp && S.screen === n[0], n[1], i + 1, () => this.setState({ flow: 'app', screen: n[0] }))),
+
+      isWelcome: F === 'welcome', isConnect: F === 'connect', isQ: F === 'q',
+      isAnalyzing: F === 'analyzing', isRaceSetup: F === 'race-setup', isPlanReview: F === 'plan-review',
+      isToday: inApp && S.screen === 'today', isWeek: inApp && S.screen === 'week',
+      isPlan: inApp && S.screen === 'plan', isLoad: inApp && S.screen === 'load',
+      isRun: inApp && S.screen === 'run', isRace: inApp && S.screen === 'race',
+      isCoach: inApp && S.screen === 'coach',
+
+      goConnect: () => this.go('connect'),
+      goSignup: () => this.go('signup'),
+      goWelcome: () => this.go('welcome'),
+      isSignup: F === 'signup',
+      signupFields: [
+        { label: 'Name', key: 'name', type: 'text', placeholder: 'Your name' },
+        { label: 'Email', key: 'email', type: 'email', placeholder: 'you@example.com' },
+        { label: 'Password', key: 'pw', type: 'password', placeholder: 'At least 10 characters' },
+      ].map(f => ({
+        label: f.label, type: f.type, placeholder: f.placeholder, value: S[f.key],
+        onChange: e => this.set(f.key, e.target.value),
+      })),
+      signupBtnLabel: 'Continue',
+      signupBtnStyle: 'flex:1;padding:14px;border-radius:10px;border:1px solid #9184d9;background:transparent;color:#d2cefd;font:500 13px/1 Inter,sans-serif;letter-spacing:0.06em;cursor:pointer;font-family:inherit;',
+      goApp: () => this.setState({ flow: 'app', screen: 'today' }),
+      goRaceSetup: () => this.go('race-setup'),
+      buildPlanLabel: S.racePicked ? 'Build my plan' : 'Pick a race to continue',
+      buildPlanStyle: 'width:100%;padding:14px;border-radius:10px;border:1px solid ' + (S.racePicked ? '#9184d9' : 'rgba(233,233,237,0.12)') + ';background:transparent;color:' + (S.racePicked ? '#d2cefd' : '#75798c') + ';font:500 13px/1 Inter,sans-serif;letter-spacing:0.06em;cursor:pointer;font-family:inherit;',
+      goPlanReview: () => { if (S.racePicked) this.go('plan-review'); },
+      draftHeading: (S.racePicked ? S.racePicked.weeks : 19) + ' weeks to ' + (S.racePicked ? S.racePicked.date.replace(/,.*/, '') : 'Oct 3'),
+      draftSub: 'Built from your 61 mi peak week and 6:38 threshold, working backwards from ' + (S.racePicked ? S.racePicked.name : 'race day') + '. Everything here is editable.',
+      draftRaceWeek: 'Wk ' + (S.racePicked ? S.racePicked.weeks : 19) + ' · Race',
+      draftBars, draftRidge,
+      goLoad: () => this.set('screen', 'load'),
+      goRun: () => this.setState({ screen: 'run', runIdx: 1 }),
+      goToday: () => this.set('screen', 'today'),
+      goCoach: () => this.setState({ flow: 'app', screen: 'coach' }),
+
+      welcomePoints: [
+        'Reads 18 months of Garmin history before it writes a plan',
+        'Fitness, fatigue and form, updated every morning',
+        'Adjust any week by hand or ask the coach',
+      ],
+
+      permissions: PERMS.map(p => ({
+        name: p[0], detail: p[1],
+        dot: 'width:6px;height:6px;border-radius:50%;flex:none;background:' + (S.connected ? '#9184d9' : 'rgba(233,233,237,0.18)') + ';',
+        stateLabel: S.connected ? 'Granted' : p[2] ? 'Required' : 'Optional',
+        state: 'font:400 10px/1 Inter,sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:' + (S.connected ? '#b5abfc' : '#595d6c') + ';',
+      })),
+      connecting: S.connecting,
+      connectBarStyle: 'height:100%;width:' + S.connectProg + '%;background:#9184d9;transition:width .12s linear;',
+      connectStatus: S.connectProg < 40 ? 'Authorising with Garmin Connect…' : S.connectProg < 80 ? 'Pulling activity history…' : 'Almost there…',
+      startConnect: () => this.startConnect(),
+      connectBtnLabel: S.connected ? 'Continue' : S.connecting ? 'Connecting…' : 'Connect Garmin',
+      connectBtnStyle: 'width:100%;padding:14px;border-radius:10px;border:1px solid ' + (S.connecting ? 'rgba(233,233,237,0.12)' : '#9184d9') + ';background:transparent;color:' + (S.connecting ? '#75798c' : '#d2cefd') + ';font:500 13px/1 Inter,sans-serif;letter-spacing:0.06em;cursor:pointer;font-family:inherit;',
+
+      qCounter: 'Question ' + (S.qi + 1) + ' of ' + QUESTIONS.length,
+      qTitle: q.t, qHelp: q.h,
+      qTicks: QUESTIONS.map((x, i) => 'flex:1;height:2px;border-radius:1px;background:' + (i <= S.qi ? '#9184d9' : 'rgba(233,233,237,0.12)') + ';'),
+      qOptions: q.o.map(o => {
+        const on = S.answers[q.k] === o;
+        return {
+          label: o, pick: () => setAnswer(q.k, o),
+          style: optBase + 'border:1px solid ' + (on ? '#9184d9' : 'rgba(233,233,237,0.10)') + ';background:' + (on ? 'rgba(145,132,217,0.10)' : 'var(--color-surface)') + ';color:' + (on ? '#e9e9ed' : '#9397ab') + ';',
+          check: 'font-size:11px;color:' + (on ? '#b5abfc' : 'transparent') + ';',
+        };
+      }),
+      qBack: () => this.setState(s => s.qi === 0 ? { flow: 'connect' } : { qi: s.qi - 1 }),
+      goRunDetail: i => this.setState({ screen: 'run', runIdx: i }),
+      qNext: () => {
+        if (this.state.qi < QUESTIONS.length - 1) this.setState(s => ({ qi: s.qi + 1 }));
+        else this.startAnalysis();
+      },
+      qNextLabel: S.qi < QUESTIONS.length - 1 ? 'Next' : 'Analyse my data',
+      qNextStyle: 'flex:1;padding:14px;border-radius:10px;border:1px solid #9184d9;background:transparent;color:#d2cefd;font:500 13px/1 Inter,sans-serif;letter-spacing:0.06em;cursor:pointer;font-family:inherit;',
+
+      analysisRows: ANALYSIS.map((r, i) => {
+        const on = i < S.analyzeStep;
+        return {
+          label: r[0], val: on ? r[1] : '', labelColor: on ? '#e9e9ed' : '#595d6c',
+          dot: 'width:5px;height:5px;border-radius:50%;flex:none;background:' + (on ? '#9184d9' : 'rgba(233,233,237,0.14)') + ';' + (on ? '' : 'animation:pulseDot 1.2s ease-in-out infinite;'),
+          valStyle: 'font:500 12.5px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#b5abfc;',
+        };
+      }),
+      analysisDone: S.analyzeStep >= ANALYSIS.length,
+      analyzeBtnLabel: S.analyzeStep >= ANALYSIS.length ? 'Continue' : 'Reading…',
+      analyzeBtnStyle: 'width:100%;padding:14px;border-radius:10px;border:1px solid ' + (S.analyzeStep >= ANALYSIS.length ? '#9184d9' : 'rgba(233,233,237,0.12)') + ';background:transparent;color:' + (S.analyzeStep >= ANALYSIS.length ? '#d2cefd' : '#75798c') + ';font:500 13px/1 Inter,sans-serif;letter-spacing:0.06em;cursor:pointer;font-family:inherit;',
+
+      setupCourse: { line: small.line, area: small.area },
+      raceQuery: S.raceQuery,
+      onRaceQuery: e => this.searchRace(e.target.value),
+      raceSearching: S.raceSearching && !S.racePicked,
+      raceResults: RACE_DB.filter(r => {
+        const q = S.raceQuery.trim().toLowerCase();
+        return r.name.toLowerCase().includes(q) || r.where.toLowerCase().includes(q);
+      }).map(r => ({
+        name: r.name, where: r.where + ' · ' + r.date, weeks: r.weeks + ' wk',
+        pick: () => this.pickRace(r),
+      })),
+      raceNoResults: S.raceSearching && !S.racePicked && !RACE_DB.some(r => {
+        const q = S.raceQuery.trim().toLowerCase();
+        return r.name.toLowerCase().includes(q) || r.where.toLowerCase().includes(q);
+      }),
+      racePicked: !!S.racePicked,
+      race: S.racePicked || {},
+      clearRace: () => this.setState({ racePicked: null, raceQuery: '', raceSearching: false }),
+      raceFacts: S.racePicked ? [
+        { v: S.racePicked.dist, l: 'miles' },
+        { v: S.racePicked.net, l: 'ft net' },
+        { v: S.racePicked.gain, l: 'ft gain' },
+        { v: S.racePicked.weeks, l: 'weeks out' },
+      ] : [],
+      raceMeta: S.racePicked ? [
+        { l: 'Field size', v: S.racePicked.field },
+        { l: 'Race-morning temp', v: S.racePicked.temp },
+        { l: 'Elevation', v: S.racePicked.start.toLocaleString() + '′ → ' + S.racePicked.finish.toLocaleString() + '′' },
+        { l: 'Standard', v: S.racePicked.bq },
+      ] : [],
+      goalOptions: ['3:10', '3:05', 'sub-3:00', '2:55'].map(g => ({
+        label: g, pick: () => this.set('goal', g),
+        style: chipBase + 'border:1px solid ' + (S.goal === g ? '#9184d9' : 'rgba(233,233,237,0.11)') + ';background:' + (S.goal === g ? 'rgba(145,132,217,0.14)' : 'transparent') + ';color:' + (S.goal === g ? '#d2cefd' : '#9397ab') + ';',
+      })),
+
+      adjusters: [
+        adjuster('Run days per week', S.days + ' days', 'days', ['4', '5', '6', '7'], v => this.set('days', v)),
+        adjuster('Peak weekly volume', S.peak + ' mi', 'peak', ['52', '56', '61', '66'], v => this.set('peak', v)),
+        adjuster('Long run day', S.longDay, 'longDay', ['Saturday', 'Sunday', 'Flexible'], v => this.set('longDay', v)),
+      ],
+
+      daysToGo: 30, curWeekNum: 15, curPhase: 'Peak Phase', curPlanned: PLAN[TODAY_W][4],
+      todaySessionType: todayDone ? 'LOGGED · EASY' : 'EASY',
+      todayDateLabel: DOW[TODAY_D] + ' ' + fmt(dateOf(TODAY_W, TODAY_D)).toUpperCase(),
+      todayBigNum: todayDone ? '7.03' : miles(tText),
+      todayBigUnit: todayDone ? 'mi run' : 'mi planned',
+      todayText: todayDone ? 'Planned: ' + tText + '. Synced from Garmin at 9:30 AM.' : tText,
+      todayLogged: todayDone, todayPlanned: !todayDone,
+      todayActuals: [{ v: '8:34', l: '/mi' }, { v: '128', l: 'avg hr' }, { v: '164', l: 'cadence' }, { v: '59m', l: 'in Z2' }],
+      todaySegments,
+      toggleToday: () => this.toggle(TODAY_W, TODAY_D),
+      todayBtnLabel: todayDone ? '✓ Logged from Garmin' : 'Mark complete',
+      todayBtnStyle: 'width:100%;margin-top:16px;padding:11px;border-radius:9px;font:500 12px/1 Inter,sans-serif;letter-spacing:0.08em;cursor:pointer;font-family:inherit;background:' + (todayDone ? 'rgba(145,132,217,0.16)' : 'transparent') + ';border:1px solid ' + (todayDone ? '#9184d9' : '#5d5294') + ';color:' + (todayDone ? '#d2cefd' : '#b5abfc') + ';',
+      headlineStats, weekStrip,
+
+      crossLabel: fmt(crossDate), tsbNow: '−33',
+      mini: {
+        zeroY: mY(0).toFixed(1), negPath, posPath,
+        linePast: mLine(0, ti), lineFuture: mLine(ti, N - 1),
+        todayX: mX(ti).toFixed(1), crossX: mX(cross).toFixed(1),
+      },
+
+      viewWeek: { n: vw[0], phase: vw[1], start: fmt(dateOf(S.viewW, 0)), planned: vw[4] },
+      viewDays,
+      weekDoneCount: vw[5].filter((t, i) => S.done[S.viewW + '-' + i]).length,
+      prevWeek: () => this.set('viewW', Math.max(0, S.viewW - 1)),
+      nextWeek: () => this.set('viewW', Math.min(18, S.viewW + 1)),
+      arrowStyle: 'width:34px;height:34px;border-radius:9px;border:1px solid rgba(233,233,237,0.12);background:transparent;color:#9397ab;font-size:17px;line-height:1;cursor:pointer;font-family:inherit;',
+
+      planBars, planRidge, phaseRows,
+      planTodayX: (TODAY_W * (W / 19) + W / 38).toFixed(1),
+
+      planViews: [['volume', 'Volume'], ['calendar', 'Calendar'], ['list', 'Phases']].map(v => ({
+        label: v[1], pick: () => this.set('planView', v[0]),
+        style: 'flex:1;padding:9px 4px;border-radius:7px;cursor:pointer;font-family:inherit;font:500 11px/1 Inter,sans-serif;letter-spacing:0.06em;border:1px solid ' + (S.planView === v[0] ? '#9184d9' : 'transparent') + ';background:' + (S.planView === v[0] ? 'rgba(145,132,217,0.14)' : 'transparent') + ';color:' + (S.planView === v[0] ? '#d2cefd' : '#75798c') + ';',
+      })),
+      isVolumeView: S.planView === 'volume',
+      isCalendarView: S.planView === 'calendar',
+      isListView: S.planView === 'list',
+
+      calMonthLabel: cal.label,
+      calSubLabel: cal.sub,
+      calDows: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+      calCells: cal.cells,
+      calPrev: () => this.set('calMonth', Math.max(0, S.calMonth - 1)),
+      calNext: () => this.set('calMonth', Math.min(cal.count - 1, S.calMonth + 1)),
+      calLegend: [
+        { l: 'Long run', c: '#b5abfc' },
+        { l: 'Quality', c: '#9184d9' },
+        { l: 'Easy', c: '#5d5294' },
+        { l: 'Rest', c: 'rgba(233,233,237,0.14)' },
+      ].map(x => ({ l: x.l, dot: 'width:6px;height:6px;border-radius:2px;flex:none;background:' + x.c + ';' })),
+
+      ridge: {
+        areaAll, contours, deloadBands,
+        ctlLine: showProj ? line('ctl', 0, N - 1) : line('ctl', 0, ti),
+        atlPast: line('atl', 0, ti), atlFuture: showProj ? line('atl', ti, N - 1) : '',
+        futureMask: 'M' + X(ti).toFixed(1) + ',0 L' + W + ',0 L' + W + ',' + H + ' L' + X(ti).toFixed(1) + ',' + H + ' Z',
+        todayX: X(ti).toFixed(1), scrubX: X(si).toFixed(1),
+        scrubCtlY: Y(sp.ctl).toFixed(1), scrubAtlY: Y(sp.atl).toFixed(1),
+        xLabels,
+      },
+      onScrub: e => this.scrubFrom(e),
+      onScrubMove: e => { if (e.buttons) this.scrubFrom(e); },
+      scrubDate: fmt(sd) + (si > ti ? ' · projected' : ''),
+      scrubCtl: Math.round(sp.ctl), scrubAtl: Math.round(sp.atl),
+      scrubTsb: (sp.tsb < 0 ? '−' : '+') + Math.abs(Math.round(sp.tsb)),
+      scrubTsbStyle: statVal(sp.tsb < thresh ? '#b5abfc' : sp.tsb >= 0 ? '#d2cefd' : '#9397ab').replace('21px', '26px'),
+      deloadRows: [
+        { title: 'Wk 12 · Aug 11', sub: 'Form bottomed −29, back to −6 by Aug 17', tag: 'TAKEN' },
+        { title: 'Wk 15 · now', sub: 'Form −33, 54 mi scheduled', tag: 'OPEN' },
+        { title: 'Wk 16 · Sep 8', sub: 'Taper starts, form projected 0 by ' + fmt(crossDate), tag: 'NEXT' },
+      ].map((r, i) => ({
+        title: r.title, sub: r.sub, tag: r.tag,
+        style: 'display:flex;align-items:center;gap:10px;border:1px solid ' + (i === 1 ? '#5d5294' : 'rgba(233,233,237,0.09)') + ';border-radius:11px;background:' + (i === 1 ? 'rgba(145,132,217,0.09)' : 'var(--color-surface)') + ';padding:11px 13px;',
+        tagStyle: 'font:500 9px/1 Inter,sans-serif;letter-spacing:0.12em;padding:5px 8px;border-radius:5px;color:' + (i === 1 ? '#d2cefd' : '#75798c') + ';border:1px solid ' + (i === 1 ? '#9184d9' : 'rgba(233,233,237,0.14)') + ';',
+      })),
+
+      runStats: [{ v: R.pace, l: '/mi' }, { v: R.hr, l: 'avg hr' }, { v: R.cad, l: 'cadence' }, { v: R.gain, l: 'ft gain' }],
+      splits, runZones, course,
+      runType: R.type, runMiles: R.miles, runDate: R.date,
+      runTargetNote: 'Lane length is pace relative to the fastest mile. Target ' + R.target + '.',
+      runList: RUNS.map((r, i) => ({
+        label: r.date.replace(/^\w+ /, ''), sub: r.miles + ' mi',
+        pick: () => this.set('runIdx', i),
+        style: 'flex:none;display:flex;flex-direction:column;gap:4px;padding:9px 11px;border-radius:9px;cursor:pointer;font-family:inherit;text-align:left;border:1px solid ' + (i === S.runIdx ? '#9184d9' : 'rgba(233,233,237,0.10)') + ';background:' + (i === S.runIdx ? 'rgba(145,132,217,0.14)' : 'var(--color-surface)') + ';',
+        labelStyle: 'font:500 11px/1 Inter,sans-serif;letter-spacing:0.04em;color:' + (i === S.runIdx ? '#d2cefd' : '#9397ab') + ';white-space:nowrap;',
+        subStyle: 'font:400 9.5px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#75798c;white-space:nowrap;',
+      })),
+
+      predictions: PREDICTIONS.map((p, i) => ({
+        dist: p[0], time: p[1], pace: p[2], basis: p[3],
+        style: 'display:flex;align-items:center;gap:11px;border:1px solid ' + (i === 3 ? '#5d5294' : 'rgba(233,233,237,0.09)') + ';border-radius:11px;background:' + (i === 3 ? 'rgba(145,132,217,0.09)' : 'var(--color-surface)') + ';padding:11px 13px;',
+        timeStyle: 'font:500 16px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:' + (i === 3 ? '#d2cefd' : '#e9e9ed') + ';',
+      })),
+      weather: WEATHER.map(w => ({ when: w[0], temp: w[1], cond: w[2] })),
+      raceRows: [
+        raceRow('Goal', this.props.goalTime ?? S.goal, true),
+        raceRow('Marathon PB', '3:27:59'),
+        raceRow('Half PB', '1:31:00'),
+        raceRow('Projected (VO2 61.0)', '2:58:40', true),
+        raceRow('Goal pace', '6:52 /mi'),
+        raceRow('Peak long run', '22.0 mi'),
+      ],
+
+      messages: S.messages.map(m => ({
+        text: m[1],
+        wrap: 'display:flex;justify-content:' + (m[0] === 'me' ? 'flex-end' : 'flex-start') + ';',
+        bubble: 'max-width:84%;padding:11px 14px;font:400 13px/1.55 Inter,sans-serif;border-radius:' + (m[0] === 'me' ? '13px 13px 4px 13px' : '13px 13px 13px 4px') + ';background:' + (m[0] === 'me' ? 'rgba(145,132,217,0.16)' : 'var(--color-surface)') + ';border:1px solid ' + (m[0] === 'me' ? '#5d5294' : 'rgba(233,233,237,0.09)') + ';color:' + (m[0] === 'me' ? '#e9e9ed' : '#b2b6ca') + ';',
+      })),
+      coachTyping: S.coachTyping,
+      prompts: PROMPTS.map(p => ({ label: p, send: () => this.send(p) })),
+      draft: S.draft,
+      onDraft: e => this.set('draft', e.target.value),
+      onDraftKey: e => { if (e.key === 'Enter') this.send(this.state.draft); },
+      sendDraft: () => this.send(this.state.draft),
+
+      tabs: [['today', 'TODAY'], ['week', 'WEEK'], ['plan', 'PLAN'], ['load', 'LOAD'], ['race', 'RACE'], ['coach', 'COACH']].map(t => ({
+        label: t[1], go: () => this.set('screen', t[0]),
+        style: 'flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;padding-top:9px;background:none;border:none;cursor:pointer;font-family:inherit;font:500 8.5px/1 Inter,sans-serif;letter-spacing:0.11em;color:' + (S.screen === t[0] ? '#e9e9ed' : '#595d6c') + ';',
+        tickStyle: 'width:14px;height:2px;border-radius:1px;background:' + (S.screen === t[0] ? '#9184d9' : 'transparent') + ';',
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
