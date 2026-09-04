@@ -79,6 +79,12 @@ export default function RaceClient({ vo2max, daysPerWeek, longRunDay }: { vo2max
             Type a race or a city. Ridge pulls the course, the field and the conditions, then builds the plan backwards from
             race day.
           </div>
+          <button
+            onClick={() => router.push('/onboarding/import')}
+            className="text-[11.5px] text-accent-400 hover:text-accent-300 mt-2"
+          >
+            Already have a plan? Import it instead
+          </button>
 
           <input
             value={query}

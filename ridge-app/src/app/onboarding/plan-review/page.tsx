@@ -24,6 +24,7 @@ export default async function PlanReviewPage({ searchParams }: { searchParams: {
       longRunDay={plan.longRunDay}
       peakWeeklyMiles={plan.peakWeeklyMiles}
       totalWeeks={plan.weeks}
+      source={plan.source}
     />
   );
 }

@@ -130,6 +130,7 @@ model TrainingPlan {
   race            Race       @relation(fields: [raceId], references: [id])
 
   status          PlanStatus @default(DRAFT)
+  source          String     @default("generated") // "generated" | "imported" — imported plans skip the Adjust regenerator
   weeks           Int
   startDate       DateTime
   goalTimeSec     Int

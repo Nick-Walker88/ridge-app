@@ -44,6 +44,19 @@ Then visit `http://localhost:3000`, create an account, and walk through onboardi
 - **Weather**: live forecast from Open-Meteo for the five seeded races' start-line coordinates when the race is within its ~16-day forecast horizon; climate-normal range otherwise.
 - **Coach**: calls the Anthropic API with the runner's real plan/activity data as context when `ANTHROPIC_API_KEY` is set; otherwise falls back to the same canned-reply set as the original design prototype.
 
+## Import your own plan
+
+Onboarding's race step has an "Already have a plan? Import it instead" link
+(`/onboarding/import`) for runners who already have a plan from a coach or a
+previous cycle. It offers a CSV template (`date, type, miles, description,
+target_pace`), parses the upload client-side for a live preview, and on
+import creates a `TrainingPlan` with `source: "imported"` — same Today/Week/
+Plan/Load/Race/Coach screens, just following the runner's own sessions
+instead of the generator's. Imported plans hide the plan-review "Adjust"
+sliders (regenerating would silently overwrite the imported sessions).
+Races outside the seeded 5 can be added manually (name/city/date/distance);
+they just won't have an elevation profile on the Race day course chart.
+
 ## What's still a stub / next step
 
 - **Garmin activity-detail fetch** (`fetchRecentActivities` in `src/lib/garmin.ts`) targets the common Activity API summary endpoint. Garmin's Developer Program grants one of several API products (Activity API vs Health API) — confirm the exact path/shape against your approval email and adjust that one function. Per-mile splits/HR zones for *real* Garmin data aren't pulled yet (the mock provider generates them; a real integration needs an additional lap/detail-fetch call per activity).

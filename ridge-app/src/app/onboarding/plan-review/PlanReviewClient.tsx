@@ -18,6 +18,7 @@ export default function PlanReviewClient(props: {
   longRunDay: number;
   peakWeeklyMiles: number;
   totalWeeks: number;
+  source: string;
 }) {
   const router = useRouter();
   const [weeks, setWeeks] = useState(props.weeks);
@@ -68,33 +69,43 @@ export default function PlanReviewClient(props: {
           <span>Wk {props.totalWeeks} · race</span>
         </div>
 
-        <div className="text-[10.5px] tracking-[0.16em] uppercase text-neutral-600 mt-6 mb-2.5">Adjust</div>
-        <div className="flex flex-col gap-2">
-          <AdjustRow label="Run days / week" value={String(daysPerWeek)}>
-            {[3, 4, 5, 6, 7].map((d) => (
-              <OptButton key={d} active={daysPerWeek === d} onClick={() => apply({ daysPerWeek: d })}>
-                {d}
-              </OptButton>
-            ))}
-          </AdjustRow>
-          <AdjustRow label="Peak volume" value={`${peakWeeklyMiles} mi`}>
-            {[-10, 0, 10, 20].map((delta) => {
-              const val = Math.round((props.peakWeeklyMiles + delta) / 5) * 5;
-              return (
-                <OptButton key={delta} active={peakWeeklyMiles === val} onClick={() => apply({ peakWeeklyMiles: val })}>
-                  {delta === 0 ? 'Base' : `${delta > 0 ? '+' : ''}${delta}`}
-                </OptButton>
-              );
-            })}
-          </AdjustRow>
-          <AdjustRow label="Long-run day" value={DAY_LABELS[longRunDay]}>
-            {[5, 6, 3].map((d) => (
-              <OptButton key={d} active={longRunDay === d} onClick={() => apply({ longRunDay: d })}>
-                {DAY_LABELS[d]}
-              </OptButton>
-            ))}
-          </AdjustRow>
-        </div>
+        {props.source === 'imported' ? (
+          <div className="text-[11.5px] leading-relaxed text-neutral-600 mt-6 border border-white/[0.09] rounded-md bg-surface px-3.5 py-3">
+            This plan was imported from your CSV, so the run-days / peak-volume / long-run-day adjusters are turned off here
+            — changing them would regenerate the plan and overwrite your own sessions. Edit the CSV and re-import if you want
+            changes.
+          </div>
+        ) : (
+          <>
+            <div className="text-[10.5px] tracking-[0.16em] uppercase text-neutral-600 mt-6 mb-2.5">Adjust</div>
+            <div className="flex flex-col gap-2">
+              <AdjustRow label="Run days / week" value={String(daysPerWeek)}>
+                {[3, 4, 5, 6, 7].map((d) => (
+                  <OptButton key={d} active={daysPerWeek === d} onClick={() => apply({ daysPerWeek: d })}>
+                    {d}
+                  </OptButton>
+                ))}
+              </AdjustRow>
+              <AdjustRow label="Peak volume" value={`${peakWeeklyMiles} mi`}>
+                {[-10, 0, 10, 20].map((delta) => {
+                  const val = Math.round((props.peakWeeklyMiles + delta) / 5) * 5;
+                  return (
+                    <OptButton key={delta} active={peakWeeklyMiles === val} onClick={() => apply({ peakWeeklyMiles: val })}>
+                      {delta === 0 ? 'Base' : `${delta > 0 ? '+' : ''}${delta}`}
+                    </OptButton>
+                  );
+                })}
+              </AdjustRow>
+              <AdjustRow label="Long-run day" value={DAY_LABELS[longRunDay]}>
+                {[5, 6, 3].map((d) => (
+                  <OptButton key={d} active={longRunDay === d} onClick={() => apply({ longRunDay: d })}>
+                    {DAY_LABELS[d]}
+                  </OptButton>
+                ))}
+              </AdjustRow>
+            </div>
+          </>
+        )}
 
         <div className="mt-8">
           <PrimaryButton disabled={starting} onClick={start}>

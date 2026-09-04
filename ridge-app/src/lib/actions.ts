@@ -8,6 +8,7 @@ import { computeHistorySummary } from '@/lib/historySummary';
 import { estimateVo2max } from '@/lib/vo2max';
 import { generatePlan, type Phase as GenPhase } from '@/lib/planGenerator';
 import { mondayIndex, addDays } from '@/lib/format';
+import { parsePlanCsv, groupIntoWeeks } from '@/lib/csvPlan';
 
 export async function saveOnboardingAnswers(answers: OnboardingAnswers) {
   const userId = await requireUserId();
@@ -192,4 +193,99 @@ export async function toggleWorkout(workoutId: string) {
   const w = await prisma.workout.findUniqueOrThrow({ where: { id: workoutId } });
   await prisma.workout.update({ where: { id: workoutId }, data: { completed: !w.completed } });
   revalidatePath('/app');
+}
+
+/** For races outside the seeded database — no elevation profile, so the
+ *  course chart just won't render fancy elevation, everything else works. */
+export async function createManualRace(input: { name: string; city: string; region: string; date: string; distanceMiles: number }) {
+  await requireUserId();
+  const date = new Date(`${input.date}T12:00:00`);
+  const race = await prisma.race.upsert({
+    where: { name_date: { name: input.name, date } },
+    create: {
+      name: input.name,
+      city: input.city || 'Unknown',
+      region: input.region || '',
+      date,
+      distanceMiles: input.distanceMiles,
+      startElevationFt: 0,
+      finishElevationFt: 0,
+      netElevationFt: 0,
+      totalGainFt: 0,
+      fieldSize: 'Unknown',
+      tempLowF: 50,
+      tempHighF: 65,
+      qualifyingStandard: 'None',
+      note: 'Custom race — no course profile on file yet.',
+      profile: [
+        [0, 0],
+        [input.distanceMiles, 0],
+      ],
+    },
+    update: {},
+  });
+  return race.id;
+}
+
+export async function importPlanFromCsv(input: { raceId: string; goalTimeSec: number; csvText: string }) {
+  const userId = await requireUserId();
+  const { rows, errors } = parsePlanCsv(input.csvText);
+  if (errors.length > 0 || rows.length === 0) {
+    return { ok: false as const, errors: errors.length ? errors : ['No valid rows found.'] };
+  }
+
+  const weeks = groupIntoWeeks(rows);
+  const startDate = weeks[0].startDate;
+  const peakWeeklyMiles = Math.round(Math.max(...weeks.map((w) => w.plannedMiles)));
+
+  const longRunDayCounts = new Map<number, number>();
+  const runningDayCounts = new Set<number>();
+  for (const r of rows) {
+    const dow = (r.date.getDay() + 6) % 7;
+    if (r.type === 'LONG') longRunDayCounts.set(dow, (longRunDayCounts.get(dow) ?? 0) + 1);
+    if (r.miles > 0) runningDayCounts.add(dow);
+  }
+  const longRunDay = [...longRunDayCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 6;
+  const daysPerWeek = Math.max(1, runningDayCounts.size);
+
+  await prisma.trainingPlan.deleteMany({ where: { userId, status: 'DRAFT' } });
+  const plan = await prisma.trainingPlan.create({
+    data: {
+      userId,
+      raceId: input.raceId,
+      status: 'DRAFT',
+      source: 'imported',
+      weeks: weeks.length,
+      startDate,
+      goalTimeSec: input.goalTimeSec,
+      daysPerWeek,
+      longRunDay,
+      peakWeeklyMiles,
+    },
+  });
+
+  for (const w of weeks) {
+    const planWeek = await prisma.planWeek.create({
+      data: {
+        planId: plan.id,
+        weekNumber: w.weekNumber,
+        phase: w.phase as GenPhase,
+        startDate: w.startDate,
+        plannedMiles: w.plannedMiles,
+      },
+    });
+    await prisma.workout.createMany({
+      data: w.workouts.map((wo) => ({
+        planWeekId: planWeek.id,
+        dayOfWeek: (wo.date.getDay() + 6) % 7,
+        date: wo.date,
+        type: wo.type,
+        plannedMiles: wo.miles,
+        description: wo.description,
+        targetPaceSec: wo.targetPaceSec ?? undefined,
+      })),
+    });
+  }
+
+  return { ok: true as const, planId: plan.id };
 }
