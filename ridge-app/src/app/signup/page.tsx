@@ -53,7 +53,15 @@ export default function SignupPage() {
           {error && <div className="text-[12px] text-red-400 mt-3">{error}</div>}
           <div className="text-[11px] leading-relaxed text-neutral-700 mt-4">
             Ridge stores your training history and Garmin tokens. It never sells data and you can revoke access from Garmin
-            Connect at any time.
+            Connect at any time. By continuing you agree to the{' '}
+            <Link href="/terms" className="text-accent-400 hover:text-accent-300">
+              Terms
+            </Link>{' '}
+            and{' '}
+            <Link href="/privacy" className="text-accent-400 hover:text-accent-300">
+              Privacy Policy
+            </Link>
+            .
           </div>
         </div>
         <div className="flex gap-2.5 mt-8">
